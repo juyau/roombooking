@@ -10,15 +10,21 @@
         <module name="roombooking-model" />
         <module name="roombooking-app" />
         <module name="roombooking-email" />
+        <module name="roombooking-dao" />
         <module name="roombooking-payment" />
         <module name="roombooking-common" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="booking-common" target="8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="booking-common" options="-parameters" />
       <module name="roombooking-app" options="-parameters" />
       <module name="roombooking-common" options="-parameters" />
+      <module name="roombooking-dao" options="-parameters" />
       <module name="roombooking-email" options="-parameters" />
       <module name="roombooking-model" options="-parameters" />
       <module name="roombooking-payment" options="-parameters" />

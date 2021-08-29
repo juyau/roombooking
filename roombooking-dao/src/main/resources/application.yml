@@ -1,0 +1,17 @@
+server:
+  port: 8082
+
+spring:
+  data:
+    mongodb:
+      port: 27017
+      database: roombooking
+      #when using docker deployment, mongodb host is not localhost any more; it need to match the mongo container name
+      #      host: mongoDocker
+
+
+      # this is only for local mac use
+      host: localhost
+      username: root
+      password: root
+      authentication-database: admin

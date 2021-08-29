@@ -1,0 +1,23 @@
+server:
+  port: 8084
+
+braintree:
+  ENVIRONMENT: sandbox
+  MERCHANT_ID: 6qnmyyxzhv382x4h
+  PUBLIC_KEY: zv4wcr6q7txvwxbd
+  PRIVATE_KEY: 7f9abd76c83b6b915384a4adf06bf9fc
+
+spring:
+  data:
+    mongodb:
+      port: 27017
+      database: roombooking
+      #when using docker deployment, mongodb host is not localhost any more; it need to match the mongo container name
+      #      host: mongoDocker
+
+
+      # this is only for local mac use
+      host: localhost
+      username: root
+      password: root
+      authentication-database: admin

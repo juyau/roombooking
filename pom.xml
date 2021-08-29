@@ -10,10 +10,12 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>roombooking-model</module>
-        <module>roombooking-common</module>
         <module>roombooking-email</module>
         <module>roombooking-app</module>
+        <module>roombooking-dao</module>
+        <module>roombooking-common</module>
         <module>roombooking-payment</module>
+
     </modules>
 
     <parent>
@@ -86,14 +88,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
             </plugin>
         </plugins>
     </build>
