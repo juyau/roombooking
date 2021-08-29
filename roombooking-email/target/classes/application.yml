@@ -1,0 +1,15 @@
+server:
+  port: 8085
+
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: breaknotification@gmail.com
+    password: jctebdtoijjfcanu
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
