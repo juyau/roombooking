@@ -6,11 +6,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.thebreak.roombooking.common.response.ResponseResult;
 import org.thebreak.roombooking.common.util.PriceUtils;
-import org.thebreak.roombooking.dao.PaymentRepository;
-import org.thebreak.roombooking.model.Payment;
+import org.thebreak.roombooking.payment.dao.PaymentRepository;
+import org.thebreak.roombooking.payment.model.Payment;
 
 
-import javax.annotation.Resource;
 import java.math.BigDecimal;
 
 @Service

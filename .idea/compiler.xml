@@ -7,16 +7,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="roombooking-model" />
         <module name="roombooking-app" />
         <module name="roombooking-email" />
-        <module name="roombooking-dao" />
         <module name="roombooking-payment" />
+        <module name="roombooking-dictionary" />
         <module name="roombooking-common" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="booking-common" target="8" />
+      <module name="roombooking-dao" target="8" />
+      <module name="roombooking-model" target="8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -25,6 +26,7 @@
       <module name="roombooking-app" options="-parameters" />
       <module name="roombooking-common" options="-parameters" />
       <module name="roombooking-dao" options="-parameters" />
+      <module name="roombooking-dictionary" options="-parameters" />
       <module name="roombooking-email" options="-parameters" />
       <module name="roombooking-model" options="-parameters" />
       <module name="roombooking-payment" options="-parameters" />

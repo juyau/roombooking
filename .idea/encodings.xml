@@ -3,9 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/roombooking-app/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/roombooking-common/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/roombooking-dao/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/roombooking-dictionary/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/roombooking-email/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/roombooking-model/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/roombooking-payment/src/main/java" charset="UTF-8" />
   </component>
 </project>

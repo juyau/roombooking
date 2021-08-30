@@ -1,13 +1,12 @@
 package org.thebreak.roombooking.common.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+
+
+
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-@Data
-@AllArgsConstructor
 public class PageResult<T> {
     private long totalRows;
     private int totalPages;
@@ -24,7 +23,62 @@ public class PageResult<T> {
         this.contentSize = page.getNumberOfElements();
         this.currentPage = page.getNumber() + 1;
         this.content = list;
-
     }
 
+    public PageResult(long totalRows, int totalPages, int pageSize, int contentSize, int currentPage, List<T> content) {
+        this.totalRows = totalRows;
+        this.totalPages = totalPages;
+        this.pageSize = pageSize;
+        this.contentSize = contentSize;
+        this.currentPage = currentPage;
+        this.content = content;
+    }
+
+    public long getTotalRows() {
+        return totalRows;
+    }
+
+    public void setTotalRows(long totalRows) {
+        this.totalRows = totalRows;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getContentSize() {
+        return contentSize;
+    }
+
+    public void setContentSize(int contentSize) {
+        this.contentSize = contentSize;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public List<T> getContent() {
+        return content;
+    }
+
+    public void setContent(List<T> content) {
+        this.content = content;
+    }
 }

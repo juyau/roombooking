@@ -26,8 +26,8 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(value = CustomException.class)
-    public ResponseResult<?> customExceptions(CustomException e) {
-        log.error(e.getCommonCode().getMessage());
+    public ResponseResult customExceptions(CustomException e) {
+        log.info(e.getCommonCode().getMessage());
         return new ResponseResult(e.getCommonCode());
     }
 
@@ -70,7 +70,6 @@ public class GlobalExceptionHandler {
         if (e instanceof DateTimeException) {
             return ResponseResult.fail(e.getMessage());
         }
-
 
         log.error(Arrays.toString(e.getStackTrace()));
         e.printStackTrace();
