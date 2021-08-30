@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
+import org.thebreak.roombooking.app.feign.EmailFeign;
 import org.thebreak.roombooking.app.model.Booking;
 import org.thebreak.roombooking.app.model.BookingTimeRange;
 import org.thebreak.roombooking.app.model.bo.BookingBO;
@@ -23,11 +24,12 @@ import org.thebreak.roombooking.common.response.PageResult;
 import org.thebreak.roombooking.common.response.ResponseResult;
 
 
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -37,6 +39,9 @@ import java.util.List;
 public class BookingController {
     @Autowired
     private BookingService bookingService;
+
+    @Autowired
+    private EmailFeign emailFeign;
 
     @PostMapping(value = "/add")
     @Operation(summary = "Add a new booking",
@@ -67,6 +72,15 @@ public class BookingController {
     public ResponseResult<PageResult<BookingVO>> findBookingsPage(
             @RequestParam @Nullable @Parameter(description = "default is 1 if not provided") Integer page,
             @RequestParam @Nullable @Parameter(description = "Max limited to 50, default is 10 if not provided") Integer size) {
+
+//        Map<String, String> email = new HashMap<>();
+//        // "juxiaoqu@gmail.com", "Test OpenFeign email", "this is email body."
+//        email.put("to","juxiaoqu@gmail.com");
+//        email.put("subject", "Test OpenFeign email");
+//        email.put("body", "this is email body.");
+//        emailFeign.sendTextEmail(email);
+//        System.out.println("email sent!!!!");
+
         Page<Booking> bookingsPage = bookingService.findPage(page, size);
 
         // map the list content to VO list

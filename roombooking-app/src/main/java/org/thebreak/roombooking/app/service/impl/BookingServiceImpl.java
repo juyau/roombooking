@@ -1,7 +1,9 @@
 package org.thebreak.roombooking.app.service.impl;
 
+import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thebreak.roombooking.app.dao.BookingRepository;
 import org.thebreak.roombooking.app.dao.RoomRepository;
+import org.thebreak.roombooking.app.feign.EmailFeign;
 import org.thebreak.roombooking.app.model.Booking;
 import org.thebreak.roombooking.app.model.BookingTimeRange;
 import org.thebreak.roombooking.app.model.Room;
@@ -29,16 +32,19 @@ import org.thebreak.roombooking.common.Constants;
 import org.thebreak.roombooking.common.exception.CustomException;
 import org.thebreak.roombooking.common.response.CommonCode;
 import org.thebreak.roombooking.common.util.BookingUtils;
+import org.thebreak.roombooking.common.util.PriceUtils;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 
 @Service
 @Slf4j
 public class BookingServiceImpl implements BookingService {
+
+    @Autowired
+    private EmailFeign emailFeign;
     private final BookingRepository repository;
 
     private final RoomRepository roomRepository;
@@ -172,14 +178,9 @@ public class BookingServiceImpl implements BookingService {
         // send email notification
         log.info("BookingServiceImpl: start to send email.");
 
-//        try {
-//            mailSenderService.sendBookingConfirmEmailNotification(bookingBO.getContact().getEmail(),
-//                    userId, room.getTitle(), bookingBO.getBookingTime().get(0).getStart(), totalBookedHours, totalAmount);
-//        } catch (MessagingException e) {
-////            CustomException.cast(CommonCode.BOOKING_SENDEMAIL_FAILED);
-//            log.error("serviceImpl email exception");
-//            log.error(e.getMessage());
-//        }
+        sendBookingConfirmEmailNotification(bookingBO.getContact().getEmail(),
+                bookingBO.getContact().getName(), room.getTitle(), bookingBO.getBookingTime().get(0).getStart(), totalBookedHours, totalAmount);
+
 
         // TODO implement Async email notification with MQ or other solution;
 
@@ -190,6 +191,27 @@ public class BookingServiceImpl implements BookingService {
         bookingPreviewVO.setRoomTitle(room.getTitle());
 
         return bookingPreviewVO;
+    }
+
+    private void sendBookingConfirmEmailNotification(String email, String userName, String title, LocalDateTime start, int totalBookedHours, int totalAmount) {
+
+        String dollarString = PriceUtils.formatDollarString(totalAmount);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mm a");
+        String formatedTime = start.format(dateTimeFormatter);
+        String html = "<p>Hi, <span style='font-weight: bold'>" + userName + "</span></p>\n" +
+                "    <p>Thank you for booking at TheBreak!</p>\n" +
+                "    <p>Your booking for: </p>\n" +
+                "    <div style='background-color: lightskyblue; border-left: 4px solid black; padding: 8px 16px'><p>Room: <span>" + title + "</span></p>\n" +
+                "    <p>Total of <span style='font-weight: bold'> " + totalBookedHours + " hours</span> starting at <span style='font-weight: bold'>" + formatedTime + "</span> with total amount of <span style='color: darkred'>$" + dollarString + "</span></p></div>\n" +
+                "    <p>is successful, please process the payment within 30 minutes. Unpaid bookings will be cancelled automatically after 30 minutes.</p>" +
+                "</br>" +
+                "<p>TheBreak Room booking team</p>";
+        Map<String, String> emailMap = new HashMap<>();
+        emailMap.put("to", email);
+        emailMap.put("subject", "Text email subject");
+        emailMap.put("body", html);
+        emailFeign.sendHtmlEmail(emailMap);
+
     }
 
     private void checkBookingBoEmptyOrNull(BookingBO bookingBO) {

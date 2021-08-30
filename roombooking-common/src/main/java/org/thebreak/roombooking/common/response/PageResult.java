@@ -1,8 +1,6 @@
 package org.thebreak.roombooking.common.response;
 
 
-
-
 import org.springframework.data.domain.Page;
 
 import java.util.List;
