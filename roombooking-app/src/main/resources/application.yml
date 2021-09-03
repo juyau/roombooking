@@ -1,17 +1,22 @@
 server:
   port: 8080
 
+#when using docker, need to change the host name accordingly
+bookingFeign:
+  email-host-name: bookingemail
+  payment-host-name: bookingpayment
+
 spring:
   data:
     mongodb:
       port: 27017
       database: roombooking
       #when using docker deployment, mongodb host is not localhost any more; it need to match the mongo container name
-      #      host: mongoDocker
+      host: mongoDocker
 
 
       # this is only for local mac use
-      host: localhost
-      username: root
-      password: root
-      authentication-database: admin
+#      host: localhost
+#      username: root
+#      password: root
+#      authentication-database: admin

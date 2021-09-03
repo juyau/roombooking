@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 
-@FeignClient(value = "sendEmail", url = "http://localhost:8085/api/v1/email")
+@FeignClient(value = "sendEmail", url = "http://" + "${bookingFeign.email-host-name}" +":8085/api/v1/email")
 public interface EmailFeign {
 
     @PostMapping("/sendText")

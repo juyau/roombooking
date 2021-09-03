@@ -1,6 +1,5 @@
 package org.thebreak.roombooking.app.service.impl;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,13 +50,11 @@ public class BookingServiceImpl implements BookingService {
 
     private final RoomService roomService;
 
-//    private final NotificationEmail mailSenderService;
 
     public BookingServiceImpl(BookingRepository repository, RoomRepository roomRepository, RoomService roomService, MongoTemplate mongoTemplate) {
         this.repository = repository;
         this.roomRepository = roomRepository;
         this.roomService = roomService;
-//        this.mailSenderService = mailSenderService;
         this.mongoTemplate = mongoTemplate;
     }
 
@@ -72,10 +69,6 @@ public class BookingServiceImpl implements BookingService {
             CustomException.cast(CommonCode.DB_ENTRY_NOT_FOUND);
         }
         Room room = optionalRoom.get();
-
-        // validate booking times
-        // get current time in UTC, and convert to same room zoned time;
-//        LocalDateTime bookedAtUTC = LocalDateTime.now(ZoneId.of("UTC"));
 
         int totalBookedHours = 0;
 
@@ -238,13 +231,6 @@ public class BookingServiceImpl implements BookingService {
             CustomException.cast(CommonCode.BOOKING_CONTACT_NOTNULL);
         }
 
-//        try {
-//            // use java mail to validate email format
-//            InternetAddress emailAddr = new InternetAddress(bookingBO.getContact().getEmail());
-//            emailAddr.validate();
-//        } catch (AddressException ex) {
-//            CustomException.cast(CommonCode.BOOKING_EMAIL_INVALID);
-//        }
     }
 
     private final MongoTemplate mongoTemplate;

@@ -7,7 +7,7 @@ import org.thebreak.roombooking.common.response.ResponseResult;
 import java.util.Map;
 
 
-@FeignClient(value = "payment", url = "http://localhost:8084/api/v1/payment")
+@FeignClient(value = "payment", url = "http://" + "${bookingFeign.payment-host-name}" +":8084/api/v1/payment")
 public interface PaymentFeign {
 
     @GetMapping("/getToken")
