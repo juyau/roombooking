@@ -18,18 +18,13 @@ import org.thebreak.roombooking.app.model.bo.BookingBO;
 import org.thebreak.roombooking.app.model.vo.BookingPreviewVO;
 import org.thebreak.roombooking.app.model.vo.BookingVO;
 import org.thebreak.roombooking.app.service.BookingService;
-import org.thebreak.roombooking.common.exception.CustomException;
 import org.thebreak.roombooking.common.response.CommonCode;
 import org.thebreak.roombooking.common.response.PageResult;
 import org.thebreak.roombooking.common.response.ResponseResult;
 
-
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -72,14 +67,6 @@ public class BookingController {
     public ResponseResult<PageResult<BookingVO>> findBookingsPage(
             @RequestParam @Nullable @Parameter(description = "default is 1 if not provided") Integer page,
             @RequestParam @Nullable @Parameter(description = "Max limited to 50, default is 10 if not provided") Integer size) {
-
-//        Map<String, String> email = new HashMap<>();
-//        // "juxiaoqu@gmail.com", "Test OpenFeign email", "this is email body."
-//        email.put("to","juxiaoqu@gmail.com");
-//        email.put("subject", "Test OpenFeign email");
-//        email.put("body", "this is email body.");
-//        emailFeign.sendTextEmail(email);
-//        System.out.println("email sent!!!!");
 
         Page<Booking> bookingsPage = bookingService.findPage(page, size);
 

@@ -43,7 +43,7 @@ public class Room extends BaseEntity {
     private int availableType = 1;
 
     @Field("reserved_dates")
-    @Schema(example = "[2002-01-06,2002-01-07]", description = "for the special dates not available for booking, for example due to covid restriction")
+    @Schema(example = "[\"2002-01-06\",\"2002-01-07\"]", description = "for the special dates not available for booking, for example due to covid restriction")
     private List<LocalDate> reservedDates;
 
     @Field("city")

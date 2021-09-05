@@ -5,12 +5,12 @@ spring:
   data:
     mongodb:
       port: 27017
-      database: roombooking
+      database: dictionary
       #when using docker deployment, mongodb host is not localhost any more; it need to match the mongo container name
-      host: mongoDocker
+#      host: mongoDocker
 
       # this is only for local mac use
-#      host: localhost
+      host: localhost
 #      username: root
 #      password: root
 #      authentication-database: admin

@@ -25,7 +25,7 @@ public class BookingBO {
     @Schema(description = "user remarks eg special requirements to the place owner")
     private String remark;
 
-    @Schema(example = "{\"start\":\"2021-08-22T22:00\",\n" +
-            "        \"end\":\"2021-08-22T23:00\"}")
+    @Schema(example = "[{\"start\":\"2021-08-22T22:00\",\n" +
+            "        \"end\":\"2021-08-22T23:00\"}]")
     private List<BookingTimeRange> bookingTime;
 }

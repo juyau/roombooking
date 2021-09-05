@@ -201,7 +201,7 @@ public class BookingServiceImpl implements BookingService {
                 "<p>TheBreak Room booking team</p>";
         Map<String, String> emailMap = new HashMap<>();
         emailMap.put("to", email);
-        emailMap.put("subject", "Text email subject");
+        emailMap.put("subject", "Your room booking with theBreak was successful");
         emailMap.put("body", html);
         emailFeign.sendHtmlEmail(emailMap);
 

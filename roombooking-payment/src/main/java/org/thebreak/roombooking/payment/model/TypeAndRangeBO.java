@@ -9,25 +9,18 @@ import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.time.LocalDateTime;
 
-@Document(value = "payment")
+
 @ToString
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-public class Payment extends BaseEntity {
+public class TypeAndRangeBO {
 
-    @Field("bookingId")
-    private String bookingId;
-
-    @Field("amount")
-    private int amount;
-
-    @Field("transId")
-    private String transId;
-
-    @Field("type")
     @Schema(description = "int, 1 - room booking, 2 - event booking")
-    private int type;
+    private Integer type;
+    private LocalDateTime start;
+    private LocalDateTime end;
 
 }

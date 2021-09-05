@@ -1,5 +1,7 @@
 package org.thebreak.roombooking.email.controller;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.thebreak.roombooking.common.response.ResponseResult;
@@ -8,6 +10,7 @@ import org.thebreak.roombooking.email.service.EmailService;
 
 @RestController
 @CrossOrigin
+@OpenAPIDefinition(info = @Info(title = "Email Controller", description = "Controller for email service"))
 @RequestMapping(value = "api/v1/email")
 public class EmailController {
     @Autowired

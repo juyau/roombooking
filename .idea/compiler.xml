@@ -7,11 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="roombooking-app" />
         <module name="roombooking-email" />
+        <module name="roombooking-app" />
         <module name="roombooking-payment" />
-        <module name="roombooking-dictionary" />
         <module name="roombooking-common" />
+        <module name="roombooking-dictionary" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

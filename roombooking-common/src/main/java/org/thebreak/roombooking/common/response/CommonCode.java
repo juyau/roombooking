@@ -34,6 +34,9 @@ public enum CommonCode {
     BOOKING_EMAIL_INVALID(false, 6010, "email invalid."),
     BOOKING_SENDEMAIL_FAILED(false, 6011, "failed to send notification email."),
 
+    // payment code
+    PAYMENT_START_MUST_BEFORE_END(false, 7001, "start date must not later than end date."),
+
     // database access code
     DB_ENTRY_ALREADY_EXIST(false, 3001, "entry already exist."),
     DB_EMPTY_LIST(true, 3002, "query list result is empty."),

@@ -1,6 +1,8 @@
 package org.thebreak.roombooking.dictionary.controller;
 
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @Slf4j
+@OpenAPIDefinition(info = @Info(title = "Dictionary Controller", description = "Controller for dictionary operations"))
 @RequestMapping(value = "api/v1/dicts")
 public class DictionaryController {
     @Autowired
