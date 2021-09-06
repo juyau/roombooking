@@ -10,6 +10,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/roombooking-dao/pom.xml" />
+        <option value="$PROJECT_DIR$/roombooking-gateway/pom.xml" />
         <option value="$PROJECT_DIR$/roombooking-model/pom.xml" />
       </set>
     </option>

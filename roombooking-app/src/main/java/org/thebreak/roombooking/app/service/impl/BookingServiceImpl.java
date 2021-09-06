@@ -350,7 +350,7 @@ public class BookingServiceImpl implements BookingService {
         Page<Booking> bookingsPage = PageableExecutionUtils.getPage(
                 list,
                 pageable,
-                () -> mongoTemplate.count(query, Booking.class));
+                () -> mongoTemplate.count(query.limit(-1).skip(-1), Booking.class));
 
         return bookingsPage;
     }

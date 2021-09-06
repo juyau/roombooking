@@ -132,23 +132,26 @@ public class PaymentServiceImpl implements PaymentService {
             size = Constants.MAX_PAGE_SIZE;
         }
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+
         Query query = new Query();
-        if( type != null){
+        if( type != null && type != 0){
             query.addCriteria(Criteria.where("type").is(type));
         }
 
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+//        query.addCriteria(Criteria.where("createdAt").gte(start).lt(end));
         query.addCriteria(Criteria.where("createdAt").gte(start).lt(end)).with(pageable);
 
 
         List<Payment> list = mongoTemplate.find(query, Payment.class);
-        System.out.println(list.toString());
+
 
         // MongoTemplate does not have built in Page, have to use PageableExecutionUtils from spring data
         Page<Payment> paymentPage = PageableExecutionUtils.getPage(
                 list,
                 pageable,
-                () -> mongoTemplate.count(query, Payment.class));
+                () -> mongoTemplate.count(query.limit(-1).skip(-1), Payment.class));
+
 
         return paymentPage;
     }

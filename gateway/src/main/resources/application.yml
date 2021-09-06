@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: booking-api
+  cloud:
+    gateway:
+      routes:
+        - id: booking-app
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/api/v1/bookings/**, /api/v1/rooms/**
+        - id: booking-payment
+          uri: http://localhost:8084/
+          predicates:
+            - Path=/api/v1/payment/**
+        - id: booking-email
+          uri: http://localhost:8085/
+          predicates:
+            - Path=/api/v1/email/**
+        - id: booking-dictionary
+          uri: http://localhost:8086/
+          predicates:
+            - Path=/api/v1/dicts/**

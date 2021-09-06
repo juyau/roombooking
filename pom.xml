@@ -14,6 +14,7 @@
         <module>roombooking-common</module>
         <module>roombooking-payment</module>
         <module>roombooking-dictionary</module>
+        <module>gateway</module>
 
     </modules>
 
