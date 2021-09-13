@@ -1,4 +1,7 @@
-FROM openjdk:8-jdk-alpine
-COPY target/gateway-1.0-SNAPSHOT.jar gateway-1.0.jar
-ENTRYPOINT ["java","-jar","gateway-1.0.jar"]
+FROM openjdk:8-alpine3.9
+MAINTAINER samuel
+ENV TZ Australia/Sydney
+ARG JAR_FILE
+COPY ${JAR_FILE} app.jar
 EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/app.jar"]

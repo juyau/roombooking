@@ -16,6 +16,11 @@ node {
     stage('install microservice module') {
         sh "mvn -f ${project_name} clean package -Dmaven.test.skip=true"
     }
+
+    stage('docker build image') {
+        sh '''docker build --build-arg JAR_FILE=target/${project_name}-1.0-SNAPSHOT.jar -t hcoin/${project_name}:latest .'''
+    }
+
 //
 //         stage('maven build') {
 //             steps {
