@@ -1,23 +1,15 @@
-pipeline {
-    agent any
-    stages {
-        stage('check env') {
-            steps {
-                sh '''export MAVEN_HOME=/opt/maven
-                export PATH=$PATH:$MAVEN_HOME/bin'''
 
-                sh '''java -version
-                git --version
-                mvn -version'''
-            }
+ def credentialsId="8c7b4b8f-dcc0-4349-a624-b54314d350bc"
+ def gitUrl="git@github.com:sydneyfullstack/roombooking.git"
+
+node {
+
+    stage('pull from git') {
+        steps {
+            echo 'pull from git.....'
+            checkout([$class: 'GitSCM', branches: [[name: "*/${branch}"]], extensions: [[$class: 'PathRestriction', excludedRegions: '', includedRegions: 'roombooking-app/.*']], userRemoteConfigs: [[credentialsId: "${credentialsId}", url: "${gitUrl}"]]])
         }
-
-//         stage('pull from git') {
-//             steps {
-//                 echo 'pull from git.....'
-//                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '6aceade2-91c3-40a8-8c7e-b00c75acb50d', url: 'https://github.com/sydneyfullstack/jenkinsdemo.git']]])
-//             }
-//         }
+    }
 //
 //         stage('maven build') {
 //             steps {
@@ -85,4 +77,4 @@ pipeline {
         }
     }
 
-}
+
