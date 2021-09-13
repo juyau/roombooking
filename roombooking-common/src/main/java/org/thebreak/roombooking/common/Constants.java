@@ -4,7 +4,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class Constants {
-    // test text2222
+    // test text2222666
     public static final int DEFAULT_PAGE_SIZE = 10;
     public static final int MAX_PAGE_SIZE = 50;
     public static final int START_TIME_OF_DAY = 5;
