@@ -8,6 +8,10 @@ node {
         echo 'pull from git.....'
         checkout([$class: 'GitSCM', branches: [[name: "*/${branch}"]], extensions: [[$class: 'PathRestriction', excludedRegions: '', includedRegions: 'roombooking-app/.*']], userRemoteConfigs: [[credentialsId: "${credentialsId}", url: "${gitUrl}"]]])
     }
+
+    stage('install common module') {
+        sh "mvn -f roombooking-common clean install"
+    }
 //
 //         stage('maven build') {
 //             steps {
