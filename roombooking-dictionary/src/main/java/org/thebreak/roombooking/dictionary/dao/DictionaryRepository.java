@@ -9,6 +9,7 @@ import org.thebreak.roombooking.dictionary.model.Dictionary;
 
 @Repository
 public interface DictionaryRepository extends MongoRepository<Dictionary, String> {
+    Dictionary findByNameIgnoreCase(String name);
     Dictionary findByName(String name);
 
     Page<Dictionary> findAll(Pageable pageable);

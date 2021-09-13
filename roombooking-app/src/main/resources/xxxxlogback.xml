@@ -2,7 +2,7 @@
 
 <configuration>
     <!--location where log files will be saved-->
-    <property name="LOG_HOME" value="/Users/sam/IdeaProjects/logs"/>
+    <property name="LOG_HOME" value="/Users/sam/IdeaProjects/bookingLogs/app"/>
 
     <!-- Console output settings -->
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">

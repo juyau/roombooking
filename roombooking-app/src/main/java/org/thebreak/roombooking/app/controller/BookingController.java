@@ -30,7 +30,7 @@ import java.util.List;
 @CrossOrigin
 @Slf4j
 @OpenAPIDefinition(info = @Info(title = "Booking Controller", description = "Controller for booking operations"))
-@RequestMapping(value = "api/v1/bookings")
+@RequestMapping(value = "api/v1/app/bookings")
 public class BookingController {
     @Autowired
     private BookingService bookingService;

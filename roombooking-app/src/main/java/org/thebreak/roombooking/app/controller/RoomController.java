@@ -31,7 +31,7 @@ import java.util.List;
 @CrossOrigin
 @Slf4j
 @OpenAPIDefinition(info = @Info(title = "Room Controller", description = "Controller for Room operations"))
-@RequestMapping(value = "api/v1/rooms")
+@RequestMapping(value = "api/v1/app/rooms")
 public class RoomController {
     @Autowired
     private RoomService roomService;

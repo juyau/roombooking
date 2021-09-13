@@ -21,7 +21,7 @@ public class BookingTimeOutCheck {
     @Autowired
     BookingRepository bookingRepository;
 
-    @Scheduled(cron = "0/10 * * * * ?")
+    @Scheduled(cron = "30 0/10 * * * ?")
     public void checkAndCloseBooking() {
 //        System.out.println("checkAndCloseBooking job");
 
@@ -36,7 +36,7 @@ public class BookingTimeOutCheck {
             System.out.println(booking.getCreatedAt());
             System.out.println(booking.getStatus());
             // close bookings older than 2days
-            if (booking.getCreatedAt().isBefore(now.minusMinutes(1))) {
+            if (booking.getCreatedAt().isBefore(now.minusMinutes(5))) {
                 bookingService.updateStatusById(booking.getId(), BookingStatusEnum.CLOSED.getCode(), 1L);
                 System.out.println("checkAndCloseBooking: set status to closed");
             }

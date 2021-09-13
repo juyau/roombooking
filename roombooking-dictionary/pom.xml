@@ -12,6 +12,7 @@
     <artifactId>roombooking-dictionary</artifactId>
 
     <properties>
+        <appPort>8086</appPort>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
@@ -38,6 +39,7 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
         </dependency>
+
     </dependencies>
     <build>
         <plugins>

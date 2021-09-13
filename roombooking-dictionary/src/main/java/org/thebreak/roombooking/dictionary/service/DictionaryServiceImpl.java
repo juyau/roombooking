@@ -11,7 +11,6 @@ import org.springframework.util.StringUtils;
 import org.thebreak.roombooking.common.Constants;
 import org.thebreak.roombooking.common.exception.CustomException;
 import org.thebreak.roombooking.common.response.CommonCode;
-import org.thebreak.roombooking.common.response.ResponseResult;
 import org.thebreak.roombooking.dictionary.dao.DictionaryRepository;
 import org.thebreak.roombooking.dictionary.model.Dictionary;
 
@@ -30,7 +29,8 @@ public class DictionaryServiceImpl implements DictionaryService {
 
         checkNullOrEmpty(name);
 
-        Dictionary dictionary = dictionaryRepository.findByName(name.toLowerCase());
+        // old - SydnEy,  new - Sydney;
+        Dictionary dictionary = dictionaryRepository.findByNameIgnoreCase(name);
 
         if (null != dictionary) {
             CustomException.cast(CommonCode.DB_ENTRY_ALREADY_EXIST);
@@ -38,7 +38,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
         // Add new dictionary to db;
         Dictionary dictionary1 = new Dictionary();
-        dictionary1.setName(name.toLowerCase());
+        dictionary1.setName(name);
         List<String> values = new ArrayList<>();
         dictionary1.setValues(values);
 
@@ -50,16 +50,16 @@ public class DictionaryServiceImpl implements DictionaryService {
 
         checkNullOrEmpty(id);
         checkNullOrEmpty(name);
-        // check if id exist;
+        // check if dictionary with this id exist;
         Dictionary dictionary = this.findById(id);
 
-        Dictionary dictionary1 = dictionaryRepository.findByName(name.toLowerCase());
+        Dictionary dictionary1 = dictionaryRepository.findByName(name);
 
         if (dictionary1 != null) {
             CustomException.cast(CommonCode.DB_ENTRY_ALREADY_EXIST);
         }
 
-        dictionary.setName(name.toLowerCase());
+        dictionary.setName(name);
 
         return dictionaryRepository.save(dictionary);
     }
@@ -69,11 +69,10 @@ public class DictionaryServiceImpl implements DictionaryService {
 
         // check if dictionary exist, if not, findById method will throw exception;
         Dictionary dictionary = this.findById(id);
-        value = value.toLowerCase();
 
         // check if value already exist in the values list;
         for (String value1 : dictionary.getValues()) {
-            if (value.equals(value1)) {
+            if (value.equalsIgnoreCase(value1)) {
                 CustomException.cast(CommonCode.DB_ENTRY_ALREADY_EXIST);
             }
         }
@@ -88,11 +87,11 @@ public class DictionaryServiceImpl implements DictionaryService {
         Dictionary dictionary = this.findById(id);
 
         // check if value already exist in the dValue list;
-        if (!dictionary.getValues().contains(value.toLowerCase())) {
+        if (!dictionary.getValues().contains(value)) {
             CustomException.cast(CommonCode.DB_ENTRY_NOT_FOUND);
         }
 
-        dictionary.getValues().removeIf(value1 -> value1.equals(value.toLowerCase()));
+        dictionary.getValues().removeIf(value1 -> value1.equals(value));
 
         return dictionaryRepository.save(dictionary);
     }
@@ -130,7 +129,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     @Override
     public Dictionary findByName(String name) {
         checkNullOrEmpty(name);
-        Dictionary dict = dictionaryRepository.findByName(name.toLowerCase());
+        Dictionary dict = dictionaryRepository.findByNameIgnoreCase(name);
 
         if (dict == null) {
             CustomException.cast(CommonCode.DB_ENTRY_NOT_FOUND);

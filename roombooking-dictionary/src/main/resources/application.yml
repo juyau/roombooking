@@ -1,5 +1,5 @@
 server:
-  port: 8086
+  port: ${appPort}
 
 spring:
   data:
@@ -7,10 +7,17 @@ spring:
       port: 27017
       database: dictionary
       #when using docker deployment, mongodb host is not localhost any more; it need to match the mongo container name
-#      host: mongoDocker
+      host: mongoDocker
 
       # this is only for local mac use
-      host: localhost
+#      host: localhost
 #      username: root
 #      password: root
 #      authentication-database: admin
+springdoc:
+  swagger-ui:
+    path: /api/v1/dicts/swagger-ui.html
+  api-docs:
+    path: /api/v1/dicts/api-docs
+    groups:
+      enabled: true
