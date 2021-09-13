@@ -5,10 +5,8 @@
 node {
 
     stage('pull from git') {
-        steps {
-            echo 'pull from git.....'
-            checkout([$class: 'GitSCM', branches: [[name: "*/${branch}"]], extensions: [[$class: 'PathRestriction', excludedRegions: '', includedRegions: 'roombooking-app/.*']], userRemoteConfigs: [[credentialsId: "${credentialsId}", url: "${gitUrl}"]]])
-        }
+        echo 'pull from git.....'
+        checkout([$class: 'GitSCM', branches: [[name: "*/${branch}"]], extensions: [[$class: 'PathRestriction', excludedRegions: '', includedRegions: 'roombooking-app/.*']], userRemoteConfigs: [[credentialsId: "${credentialsId}", url: "${gitUrl}"]]])
     }
 //
 //         stage('maven build') {
