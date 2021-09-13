@@ -18,7 +18,7 @@ node {
     }
 
     stage('docker build image') {
-        sh "cd ${project_name}"
+        sh "cd ${project_name}/"
         sh "docker build --build-arg JAR_FILE=target/${project_name}-1.0-SNAPSHOT.jar -t hcoin/${project_name}:latest ."
     }
 
