@@ -12,6 +12,10 @@ node {
     stage('install common module') {
         sh "mvn -f roombooking-common clean install"
     }
+
+    stage('install microservice module') {
+        sh "mvn -f ${project_name} clean package -Dmaven.test.skip=true"
+    }
 //
 //         stage('maven build') {
 //             steps {
