@@ -12,7 +12,7 @@
     <artifactId>roombooking-app</artifactId>
 
     <properties>
-        <appPort>8088</appPort>
+        <appPort>8081</appPort>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
