@@ -10,4 +10,3 @@ Springboot microservice booking system with Docker Jenkins CICD
 ### Jenkins work flow
 
 ![image-20210913200757189](/Users/sam/Library/Application Support/typora-user-images/image-20210913200757189.png)
-
