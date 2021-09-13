@@ -1,5 +1,5 @@
 server:
-  port: ${appPort}
+  port: 8081
 
 #when using docker, need to change the host name accordingly
 bookingFeign:
