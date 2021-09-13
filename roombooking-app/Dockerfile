@@ -1,4 +1,7 @@
-FROM openjdk:8-jdk-alpine
-COPY target/roombooking-app-1.0-SNAPSHOT.jar roombooking-app-1.0.jar
-ENTRYPOINT ["java","-jar","roombooking-app-1.0.jar"]
-EXPOSE 8080
+FROM openjdk:8-alpine3.9
+MAINTAINER samuel
+ENV TZ Australia/Sydney
+ARG JAR_FILE
+COPY ${JAR_FILE} app.jar
+EXPOSE 8081
+ENTRYPOINT ["java", "-jar", "/app.jar"]
