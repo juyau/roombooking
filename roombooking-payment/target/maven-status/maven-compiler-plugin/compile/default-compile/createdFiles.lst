@@ -1,9 +1,0 @@
-org/thebreak/roombooking/payment/model/TypeAndRangeBO.class
-org/thebreak/roombooking/payment/model/TotalAndCountVO.class
-org/thebreak/roombooking/payment/dao/PaymentRepository.class
-org/thebreak/roombooking/payment/model/BaseEntity.class
-org/thebreak/roombooking/payment/model/Payment.class
-org/thebreak/roombooking/payment/PaymentApplication.class
-org/thebreak/roombooking/payment/service/PaymentServiceImpl.class
-org/thebreak/roombooking/payment/controller/PaymentController.class
-org/thebreak/roombooking/payment/service/PaymentService.class

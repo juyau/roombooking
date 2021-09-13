@@ -1,8 +1,0 @@
-org/thebreak/roombooking/dictionary/model/Dictionary.class
-org/thebreak/roombooking/dictionary/service/DictionaryServiceImpl.class
-org/thebreak/roombooking/dictionary/DictionaryApplication.class
-org/thebreak/roombooking/dictionary/service/DictionaryService.class
-org/thebreak/roombooking/dictionary/controller/DictionaryController.class
-org/thebreak/roombooking/dictionary/model/DictionaryVO.class
-org/thebreak/roombooking/dictionary/model/BaseEntity.class
-org/thebreak/roombooking/dictionary/dao/DictionaryRepository.class
