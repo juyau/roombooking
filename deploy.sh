@@ -31,12 +31,7 @@ fi
 #download image
 docker pull $docker_user/$project_name:$tag
 
-#only gateway need to expose port to host machine
-if [ $project_name == "gateway" ]
-then
+#run docker container
 docker run --name $project_name --network $network -d -p $port:$port $docker_user/$project_name:$tag
-else
-docker run --name $project_name --network $network -d $docker_user/$project_name:$tag
-fi
 
 echo "container running on network - '$network'"
