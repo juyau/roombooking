@@ -15,19 +15,19 @@ spring:
       port: 27017
       database: roombooking
       #when using docker deployment, mongodb host is not localhost any more; it need to match the mongo container name
-#      host: mongoDocker
+      host: mongoDocker
 
       # this is only for local mac use
-      host: localhost
+#      host: localhost
   application:
-    name: booking-app
-  zipkin:
-    sender:
-      type: web
-    base-url: http://localhost:9411/
-  sleuth:
-    sampler:
-      probability: 1.0
+    name: roombooking-app
+#  zipkin:
+#    sender:
+#      type: web
+#    base-url: http://localhost:9411/
+#  sleuth:
+#    sampler:
+#      probability: 1.0
 springdoc:
   swagger-ui:
     path: /api/v1/app/swagger-ui.html
@@ -37,4 +37,4 @@ springdoc:
       enabled: true
 logging:
   level:
-    root: debug
+    root: info

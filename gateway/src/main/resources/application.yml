@@ -3,53 +3,52 @@ server:
 
 spring:
 
-
   application:
     name: booking-gateway
   cloud:
     gateway:
-#      routes:
-#        - id: booking-app
-#          uri: http://booking-app:8081/
-#          predicates:
-#            - Path=/api/v1/app/**
-#        - id: booking-payment
-#          uri: http://booking-payment:8084/
-#          predicates:
-#            - Path=/api/v1/payment/**
-#        - id: booking-email
-#          uri: http://booking-email:8085/
-#          predicates:
-#            - Path=/api/v1/email/**
-#        - id: booking-dictionary
-#          uri: http://booking-dictionary:8086/
-#          predicates:
-#            - Path=/api/v1/dicts/**
-
       routes:
         - id: booking-app
-          uri: http://localhost:8081/
+          uri: http://roombooking-app:8081/
           predicates:
             - Path=/api/v1/app/**
         - id: booking-payment
-          uri: http://localhost:8084/
+          uri: http://roombooking-payment:8084/
           predicates:
             - Path=/api/v1/payment/**
         - id: booking-email
-          uri: http://localhost:8085/
+          uri: http://roombooking-email:8085/
           predicates:
             - Path=/api/v1/email/**
         - id: booking-dictionary
-          uri: http://localhost:8086/
+          uri: http://roombooking-dictionary:8086/
           predicates:
             - Path=/api/v1/dicts/**
-  zipkin:
-    sender:
-      type: web
-    base-url: http://localhost:9411/
-  sleuth:
-    sampler:
-      probability: 1.0
+
+#      routes:
+#        - id: booking-app
+#          uri: http://localhost:8081/
+#          predicates:
+#            - Path=/api/v1/app/**
+#        - id: booking-payment
+#          uri: http://localhost:8084/
+#          predicates:
+#            - Path=/api/v1/payment/**
+#        - id: booking-email
+#          uri: http://localhost:8085/
+#          predicates:
+#            - Path=/api/v1/email/**
+#        - id: booking-dictionary
+#          uri: http://localhost:8086/
+#          predicates:
+#            - Path=/api/v1/dicts/**
+#  zipkin:
+#    sender:
+#      type: web
+#    base-url: http://localhost:9411/
+#  sleuth:
+#    sampler:
+#      probability: 1.0
 logging:
   level:
-    root: debug
+    root: info

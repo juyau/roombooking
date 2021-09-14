@@ -6,7 +6,7 @@ spring:
     mongodb:
       port: 27017
       database: dictionary
-      host: localhost
+      host: mongoDocker
 
 springdoc:
   swagger-ui:
