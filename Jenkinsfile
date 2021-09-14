@@ -1,6 +1,8 @@
 
  def credentialsId="8c7b4b8f-dcc0-4349-a624-b54314d350bc"
  def gitUrl="git@github.com:sydneyfullstack/roombooking.git"
+ def imageName="hcoin/${project_name}:latest"
+ def dockerCredential="795b8274-94c3-42e6-890f-d5f8e6c05d4d"
 
 node {
 
@@ -18,7 +20,15 @@ node {
     }
 
     stage('docker build image') {
-        sh "docker build -f ${project_name}/Dockerfile --build-arg JAR_FILE=${project_name}/target/${project_name}-1.0-SNAPSHOT.jar -t hcoin/${project_name}:latest ."
+        sh "docker build -f ${project_name}/Dockerfile --build-arg JAR_FILE=${project_name}/target/${project_name}-1.0-SNAPSHOT.jar -t ${imageName} ."
+    }
+
+    stage('push image to docker hub') {
+        withCredentials([usernamePassword(credentialsId: "${dockerCredential}", passwordVariable: 'password', usernameVariable: 'username')]) {
+            sh "docker login -u ${username} -p ${password} hcoin"
+            sh "docker push ${imageName}"
+            echo "Image pushed to docker hub success."
+        }
     }
 
 //
