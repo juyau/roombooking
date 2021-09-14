@@ -22,7 +22,7 @@ fi
 #check if image exists and delete
 imageid=`docker images | grep $project_name | awk '{print $3}'`
 if [ $imageid != "" ]
-then
+
 echo "image exists, deleting..."
 docker rmi -f $imageid
 echo "image deleted success."
@@ -32,6 +32,11 @@ fi
 docker pull $docker_user/$project_name:$tag
 
 #run docker container
+if [ $project_name == "gateway" ]
+then
 docker run --name $project_name --network $network -d -p $port:$port $docker_user/$project_name:$tag
+else
+docker run --name $project_name --network $network -d $docker_user/$project_name:$tag
+fi
 
 echo "container running on network - '$network'"

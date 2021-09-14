@@ -13,6 +13,7 @@ import org.thebreak.roombooking.email.service.EmailService;
 @OpenAPIDefinition(info = @Info(title = "Email Controller", description = "Controller for email service"))
 @RequestMapping(value = "api/v1/email")
 public class EmailController {
+    // test text
     @Autowired
     private EmailService emailService;
 
