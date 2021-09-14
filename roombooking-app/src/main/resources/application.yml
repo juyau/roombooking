@@ -3,11 +3,11 @@ server:
 
 #when using docker, need to change the host name accordingly
 bookingFeign:
-#  email-host-name: booking-email
-#  payment-host-name: booking-payment
+  email-host-name: roombooking-email
+  payment-host-name: roombooking-payment
 
-  email-host-name: localhost
-  payment-host-name: localhost
+#  email-host-name: localhost
+#  payment-host-name: localhost
 
 spring:
   data:
