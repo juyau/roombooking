@@ -26,6 +26,7 @@ import java.util.Map;
 @OpenAPIDefinition(info = @Info(title = "Payment Controller", description = "Controller for payment"))
 @RequestMapping(value = "api/v1/payment")
 public class PaymentController {
+    // test payment
     @Autowired
     private PaymentService paymentService;
 
