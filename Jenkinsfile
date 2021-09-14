@@ -1,9 +1,12 @@
 
  def credentialsId="8c7b4b8f-dcc0-4349-a624-b54314d350bc"
  def gitUrl="git@github.com:sydneyfullstack/roombooking.git"
- def imageName="${project_name}:latest"
+ def dockerUser="hcoin"
+ def imageName="${project_name}"
+ def tag="latest"
+ def docker_network="booking-network"
  def dockerCredential="795b8274-94c3-42e6-890f-d5f8e6c05d4d"
- def dockerUrl="https://hub.docker.com/repository/docker/hcoin/"
+
 
 node {
 
@@ -21,16 +24,21 @@ node {
     }
 
     stage('docker build image') {
-        sh "docker build -f ${project_name}/Dockerfile --build-arg JAR_FILE=${project_name}/target/${project_name}-1.0-SNAPSHOT.jar -t hcoin/${imageName} ."
+        sh "docker build -f ${project_name}/Dockerfile --build-arg JAR_FILE=${project_name}/target/${project_name}-1.0-SNAPSHOT.jar -t ${dockerUser}/${imageName}:${tag} ."
     }
 
     stage('push image to docker hub') {
         withCredentials([usernamePassword(credentialsId: "${dockerCredential}", passwordVariable: 'password', usernameVariable: 'username')]) {
             sh "docker login -u ${username} -p ${password} "
-            sh "docker push hcoin/${imageName}"
+            sh "docker push ${dockerUser}/${imageName}:${tag}"
             echo "Image pushed to docker hub success."
         }
     }
+
+    stage('SSH execCommand') {
+        sshPublisher(publishers: [sshPublisherDesc(configName: 'aws-prod', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: "/opt/jenkins_shell/deploy.sh ${dockerUser} ${project_name} ${tag} ${docker_network} ${port}", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+    }
+
 
 //
 //         stage('maven build') {

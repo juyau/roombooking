@@ -2,49 +2,38 @@ version: "3"
 services:
   mongoDocker:
     image: mongo:latest
-    #in the project property file, the mongobd connection is no longer to localhost, but this container name
     container_name: mongoDocker
     volumes:
       - /data/mongodb:/data/db
-#    ports:
-#      - 27017:27017
     networks:
-      booking-network:
-  booking-email:
-    image: hcoin/roombooking-email:0.0.10
-    container_name: booking-email
-#    ports:
-#      - 8085:8085
+      - booking-network
+  roombooking-email:
+    image: hcoin/roombooking-email:latest
+    container_name: roombooking-email
     networks:
-      booking-network:
-  booking-payment:
-    image: hcoin/roombooking-payment:0.0.6
-    container_name: booking-payment
-#    ports:
-#      - 8084:8084
+      - booking-network
+  roombooking-payment:
+    image: hcoin/roombooking-payment:latest
+    container_name: roombooking-payment
     networks:
-      booking-network:
-  booking-dictionary:
-    image: hcoin/roombooking-dictionary:0.0.7
-    container_name: booking-dictionary
-#    ports:
-#      - 8086:8086
+      - booking-network
+  roombooking-dictionary:
+    image: hcoin/roombooking-dictionary:latest
+    container_name: roombooking-dictionary
     networks:
-      booking-network:
-  booking-app:
-    image: hcoin/roombooking-app:0.0.7
-    container_name: booking-app
-#    ports:
-#      - 8081:8081
+      - booking-network
+  roombooking-app:
+    image: hcoin/roombooking-app:latest
+    container_name: roombooking-app
     networks:
-      booking-network:
-  booking-gateway:
-    image: hcoin/roombooking-gateway:0.0.7
-    container_name: booking-gateway
+      - booking-network
+  gateway:
+    image: hcoin/gateway:latest
+    container_name: gateway
     ports:
       - 8080:8080
     networks:
-      booking-network:
+      - booking-network
 
 networks:
   booking-network:
