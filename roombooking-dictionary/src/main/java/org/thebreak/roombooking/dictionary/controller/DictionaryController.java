@@ -26,7 +26,7 @@ import java.util.List;
 public class DictionaryController {
     @Autowired
     private DictionaryService dictionaryService;
-    // test dicts
+    // test dictionary
 
     @PostMapping(value = "/add")
     public ResponseResult<DictionaryVO> addDictionary(@RequestParam String name) {
