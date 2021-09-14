@@ -7,6 +7,15 @@ spring:
     name: booking-gateway
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
       routes:
         - id: booking-app
           uri: http://roombooking-app:8081/
