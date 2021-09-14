@@ -27,7 +27,7 @@ node {
     stage('push image to docker hub') {
         withCredentials([usernamePassword(credentialsId: "${dockerCredential}", passwordVariable: 'password', usernameVariable: 'username')]) {
             sh "docker login -u ${username} -p ${password} "
-            sh "docker push ${dockerUrl}/${imageName}"
+            sh "docker push hcoin/${imageName}"
             echo "Image pushed to docker hub success."
         }
     }
