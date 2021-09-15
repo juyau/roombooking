@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 @OpenAPIDefinition(info = @Info(title = "Booking Email API", version = "1.0.0", description = "api for room email service"))
 public class EmailApplication {
-    //email
+    //email 111
     public static void main(String[] args) {
         SpringApplication.run(EmailApplication.class, args);
     }

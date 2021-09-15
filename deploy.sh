@@ -32,7 +32,7 @@ fi
 docker pull "$docker_user"/"$project_name":"$tag"
 
 #run docker container
-docker run --name "$project_name" --network "$network" -d -p "$port":"$port" "$docker_user"/"$project_name":"$tag"
+docker run -d --restart=always --name "$project_name" --network "$network" -p "$port":"$port" "$docker_user"/"$project_name":"$tag"
 
 
 echo "container running on network - '$network'"
