@@ -1,5 +1,5 @@
 
- def credentialsId="8c7b4b8f-dcc0-4349-a624-b54314d350bc"
+ def credentialsId="8fda5689-e287-4fcc-8e67-f5a9f90f5cd0"
  def gitUrl="git@github.com:sydneyfullstack/roombooking.git"
  def dockerUser="hcoin"
  def imageName="${project_name}"
