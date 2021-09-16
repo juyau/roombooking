@@ -1,0 +1,16 @@
+
+#use docker container name as host name in production
+bookingFeign:
+  email-host-name: roombooking-email
+  payment-host-name: roombooking-payment
+
+spring:
+  data:
+    mongodb:
+      port: 27017
+      database: roombooking
+      host: mongoDocker
+
+logging:
+  level:
+    root: warn

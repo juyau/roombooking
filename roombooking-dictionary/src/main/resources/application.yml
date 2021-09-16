@@ -2,11 +2,10 @@ server:
   port: 8086
 
 spring:
-  data:
-    mongodb:
-      port: 27017
-      database: dictionary
-      host: mongoDocker
+  profiles:
+    active: prod
+  application:
+    name: roombooking-dictionary
 
 springdoc:
   swagger-ui:

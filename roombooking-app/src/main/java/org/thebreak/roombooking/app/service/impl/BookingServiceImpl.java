@@ -171,11 +171,13 @@ public class BookingServiceImpl implements BookingService {
         // send email notification
         log.info("BookingServiceImpl: start to send email.");
 
-        sendBookingConfirmEmailNotification(bookingBO.getContact().getEmail(),
-                bookingBO.getContact().getName(), room.getTitle(), bookingBO.getBookingTime().get(0).getStart(), totalBookedHours, totalAmount);
+        try {
+            sendBookingConfirmEmailNotification(bookingBO.getContact().getEmail(),
+                    bookingBO.getContact().getName(), room.getTitle(), bookingBO.getBookingTime().get(0).getStart(), totalBookedHours, totalAmount);
+        } catch (Exception e){
+            log.error("email feign send email failed.");
+        }
 
-
-        // TODO implement Async email notification with MQ or other solution;
 
         BookingPreviewVO bookingPreviewVO = new BookingPreviewVO();
 
@@ -204,7 +206,6 @@ public class BookingServiceImpl implements BookingService {
         emailMap.put("subject", "Your room booking with theBreak was successful");
         emailMap.put("body", html);
         emailFeign.sendHtmlEmail(emailMap);
-
     }
 
     private void checkBookingBoEmptyOrNull(BookingBO bookingBO) {
@@ -229,6 +230,9 @@ public class BookingServiceImpl implements BookingService {
 
         if (bookingBO.getContact().getEmail() == null || bookingBO.getContact().getMobile() == null || bookingBO.getContact().getName() == null) {
             CustomException.cast(CommonCode.BOOKING_CONTACT_NOTNULL);
+        }
+        if(!BookingUtils.isEmail(bookingBO.getContact().getEmail())){
+            CustomException.cast(CommonCode.BOOKING_EMAIL_INVALID);
         }
 
     }

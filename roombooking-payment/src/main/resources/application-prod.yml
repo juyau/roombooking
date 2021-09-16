@@ -1,0 +1,11 @@
+
+spring:
+  data:
+    mongodb:
+      port: 27017
+      database: payment
+      host: mongoDocker
+
+logging:
+  level:
+    root: warn

@@ -20,6 +20,8 @@ spring:
           auth: true
           starttls:
             enable: true
+  application:
+    name: roombooking-email
 springdoc:
   swagger-ui:
     path: /api/v1/email/swagger-ui.html

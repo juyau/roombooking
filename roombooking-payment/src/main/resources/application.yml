@@ -8,19 +8,8 @@ braintree:
   PRIVATE_KEY: 7f9abd76c83b6b915384a4adf06bf9fc
 
 spring:
-#  zipkin:
-#    sender:
-#      type: web
-#    base-url: http://localhost:9411/
-#  sleuth:
-#    sampler:
-#      probability: 1.0
-  data:
-    mongodb:
-      port: 27017
-      database: payment
-      host: mongoDocker
-
+  profiles:
+    active: prod
   application:
     name: booking-payment
 
@@ -31,7 +20,3 @@ springdoc:
     path: /api/v1/payment/api-docs
     groups:
       enabled: true
-
-logging:
-  level:
-    root: info

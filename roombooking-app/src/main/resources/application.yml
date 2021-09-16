@@ -1,33 +1,12 @@
 server:
   port: 8081
 
-#when using docker, need to change the host name accordingly
-bookingFeign:
-  email-host-name: roombooking-email
-  payment-host-name: roombooking-payment
-
-#  email-host-name: localhost
-#  payment-host-name: localhost
-
 spring:
-  data:
-    mongodb:
-      port: 27017
-      database: roombooking
-      #when using docker deployment, mongodb host is not localhost any more; it need to match the mongo container name
-      host: mongoDocker
-
-      # this is only for local mac use
-#      host: localhost
+  profiles:
+    active: prod
   application:
     name: roombooking-app
-#  zipkin:
-#    sender:
-#      type: web
-#    base-url: http://localhost:9411/
-#  sleuth:
-#    sampler:
-#      probability: 1.0
+
 springdoc:
   swagger-ui:
     path: /api/v1/app/swagger-ui.html
@@ -35,6 +14,3 @@ springdoc:
     path: /api/v1/app/api-docs
     groups:
       enabled: true
-logging:
-  level:
-    root: info
