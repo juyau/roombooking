@@ -13,6 +13,6 @@ class TestController2 {
 
     @GetMapping()
     public String getString(){
-        return "test ok git update";
+        return "test final??";
     }
 }
