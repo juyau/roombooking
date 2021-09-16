@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class GatewayApplication {
     public static void main(String[] args) {
-        // test 223
+        // test 2234
         SpringApplication.run(GatewayApplication.class, args);
     }
 }
