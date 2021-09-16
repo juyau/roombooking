@@ -6,6 +6,7 @@ spring:
     active: prod
   application:
     name: booking-gateway
+
   cloud:
     gateway:
       globalcors:
