@@ -24,6 +24,16 @@ node {
         sh "mvn -f ${project_name} clean package -Dmaven.test.skip=true"
     }
 
+    stage('delete old  image') {
+        sh '''imageId=$(docker images | grep "$project_name" | awk \'{print $3}\')
+            if [ "$imageId" != "" ]
+            then
+            echo "image exists, deleting..."
+            docker rmi -f "$imageId"
+            echo "image deleted success."
+            fi'''
+    }
+
     stage('docker build image') {
         sh "docker build -f ${project_name}/Dockerfile --build-arg JAR_FILE=${project_name}/target/${project_name}-1.0-SNAPSHOT.jar -t ${dockerUser}/${imageName}:${tag} ."
     }
