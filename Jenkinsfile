@@ -1,6 +1,6 @@
 
  def credentialsId="8fda5689-e287-4fcc-8e67-f5a9f90f5cd0"
- def gitUrl="git@github.com:sydneyfullstack/roombooking.git"
+ def gitUrl="https://github.com/sydneyfullstack/roombooking.git"
  def dockerUser="hcoin"
  def imageName="${project_name}"
  def tag="latest"
@@ -14,6 +14,7 @@ node {
         echo 'pull from git.....'
         checkout([$class: 'GitSCM', branches: [[name: "*/${branch}"]], extensions: [[$class: 'PathRestriction', excludedRegions: '', includedRegions: 'roombooking-app/.*']], userRemoteConfigs: [[credentialsId: "${credentialsId}", url: "${gitUrl}"]]])
     }
+
 
     stage('install common module') {
         sh "mvn -f roombooking-common clean install"
