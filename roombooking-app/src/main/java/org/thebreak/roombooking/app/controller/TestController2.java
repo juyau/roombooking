@@ -13,6 +13,6 @@ class TestController2 {
 
     @GetMapping()
     public String getString(){
-        return "test ok223567";
+        return "test ok2235678";
     }
 }
