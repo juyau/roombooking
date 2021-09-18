@@ -15,14 +15,14 @@ node {
         checkout([$class: 'GitSCM', branches: [[name: "*/${branch}"]], extensions: [[$class: 'PathRestriction', excludedRegions: '', includedRegions: 'roombooking-app/.*']], userRemoteConfigs: [[credentialsId: "${credentialsId}", url: "${gitUrl}"]]])
     }
 
-//
-//     stage('install common module') {
-//         sh "mvn -f roombooking-common clean install"
-//     }
-//
-//     stage('install microservice module') {
-//         sh "mvn -f ${project_name} clean package -Dmaven.test.skip=true"
-//     }
+
+    stage('install common module') {
+        sh "mvn -f roombooking-common clean install"
+    }
+
+    stage('install microservice module') {
+        sh "mvn -f ${project_name} clean package -Dmaven.test.skip=true"
+    }
 
 //     stage('delete old  image') {
 //         sh '''imageId=$(docker images | grep "$project_name" | awk \'{print $3}\')
