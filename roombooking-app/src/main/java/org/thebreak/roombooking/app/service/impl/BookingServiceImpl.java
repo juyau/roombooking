@@ -29,13 +29,16 @@ import org.thebreak.roombooking.app.service.BookingService;
 import org.thebreak.roombooking.app.service.RoomService;
 import org.thebreak.roombooking.common.Constants;
 import org.thebreak.roombooking.common.exception.CustomException;
+import org.thebreak.roombooking.common.model.BookingNotificationEmailBO;
 import org.thebreak.roombooking.common.response.CommonCode;
 import org.thebreak.roombooking.common.util.BookingUtils;
 import org.thebreak.roombooking.common.util.PriceUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -172,10 +175,16 @@ public class BookingServiceImpl implements BookingService {
         log.info("BookingServiceImpl: start to send email.");
 
         try {
-            sendBookingConfirmEmailNotification(bookingBO.getContact().getEmail(),
-                    bookingBO.getContact().getName(), room.getTitle(), bookingBO.getBookingTime().get(0).getStart(), totalBookedHours, totalAmount);
+            sendBookingConfirmEmailNotification(
+                    bookingBO.getContact().getEmail(),
+                    bookingBO.getContact().getName(),
+                    room.getTitle(),
+                    totalBookedHours,
+                    bookingBO.getBookingTime().get(0).getStart(),
+                    totalAmount);
         } catch (Exception e){
             log.error("email feign send email failed.");
+            e.printStackTrace();
         }
 
 
@@ -188,24 +197,12 @@ public class BookingServiceImpl implements BookingService {
         return bookingPreviewVO;
     }
 
-    private void sendBookingConfirmEmailNotification(String email, String userName, String title, LocalDateTime start, int totalBookedHours, int totalAmount) {
-
-        String dollarString = PriceUtils.formatDollarString(totalAmount);
+    private void sendBookingConfirmEmailNotification(String toEmail, String userName, String roomTitle, int totalBookedHours, LocalDateTime startTime, int totalAmount) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mm a");
-        String formatedTime = start.format(dateTimeFormatter);
-        String html = "<p>Hi, <span style='font-weight: bold'>" + userName + "</span></p>\n" +
-                "    <p>Thank you for booking at TheBreak!</p>\n" +
-                "    <p>Your booking for: </p>\n" +
-                "    <div style='background-color: lightskyblue; border-left: 4px solid black; padding: 8px 16px'><p>Room: <span>" + title + "</span></p>\n" +
-                "    <p>Total of <span style='font-weight: bold'> " + totalBookedHours + " hours</span> starting at <span style='font-weight: bold'>" + formatedTime + "</span> with total amount of <span style='color: darkred'>$" + dollarString + "</span></p></div>\n" +
-                "    <p>is successful, please process the payment within 30 minutes. Unpaid bookings will be cancelled automatically after 30 minutes.</p>" +
-                "</br>" +
-                "<p>TheBreak Room booking team</p>";
-        Map<String, String> emailMap = new HashMap<>();
-        emailMap.put("to", email);
-        emailMap.put("subject", "Your room booking with theBreak was successful");
-        emailMap.put("body", html);
-        emailFeign.sendHtmlEmail(emailMap);
+        String formatedTime = startTime.format(dateTimeFormatter);
+        String formatedAmout = PriceUtils.formatDollarString(totalAmount);
+        BookingNotificationEmailBO emailBO = new BookingNotificationEmailBO(toEmail,userName,roomTitle, totalBookedHours, formatedTime, formatedAmout);
+        emailFeign.sendBookingNotification(emailBO);
     }
 
     private void checkBookingBoEmptyOrNull(BookingBO bookingBO) {

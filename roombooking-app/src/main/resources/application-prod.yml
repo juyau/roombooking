@@ -1,15 +1,21 @@
 
-#use docker container name as host name in production
-bookingFeign:
-  email-host-name: roombooking-email
-  payment-host-name: roombooking-payment
-
 spring:
   data:
     mongodb:
+      host: mongoDocker
       port: 27017
       database: roombooking
-      host: mongoDocker
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        register: true
+        instance-id: ${spring.application.name}-01
+        service-name: ${spring.application.name}
+        port: ${server.port}
+        prefer-ip-address: true
+        ip-address: ${spring.cloud.client.ip-address}
 
 logging:
   level:

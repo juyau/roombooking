@@ -3,9 +3,20 @@ server:
 
 spring:
   profiles:
-    active: prod
+    active: dev
   application:
     name: roombooking-dictionary
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        register: true
+        instance-id: ${spring.application.name}-01
+        service-name: ${spring.application.name}
+        port: ${server.port}
+        prefer-ip-address: true
+        ip-address: ${spring.cloud.client.ip-address}
 
 springdoc:
   swagger-ui:

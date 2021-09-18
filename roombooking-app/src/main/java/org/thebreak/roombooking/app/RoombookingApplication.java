@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableFeignClients
+//@EnableEurekaClient
 @EnableMongoAuditing
 @EnableAsync
 @EnableScheduling

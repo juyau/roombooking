@@ -6,7 +6,7 @@ class BookingUtilsTest {
 
     @org.junit.jupiter.api.Test
     void isEmail() {
-        String email = "samuel.ju@gmail.co";
+        String email = "luka.bacic278@gmail.com";
         System.out.println(BookingUtils.isEmail(email));
     }
 }

@@ -1,15 +1,22 @@
 
-#host name is different when in production docker environment
-bookingFeign:
-  email-host-name: localhost
-  payment-host-name: localhost
-
 spring:
   data:
     mongodb:
       port: 27017
       database: roombooking
       host: localhost
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        register: true
+        instance-id: ${spring.application.name}-01
+        service-name: ${spring.application.name}
+        port: ${server.port}
+        prefer-ip-address: true
+        ip-address: ${spring.cloud.client.ip-address}
+
 #  zipkin:
 #    sender:
 #      type: web
@@ -17,6 +24,7 @@ spring:
 #  sleuth:
 #    sampler:
 #      probability: 1.0
+
 logging:
   level:
     root: info

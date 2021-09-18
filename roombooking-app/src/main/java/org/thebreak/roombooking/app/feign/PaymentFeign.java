@@ -1,20 +1,18 @@
 package org.thebreak.roombooking.app.feign;
 
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.*;
-import org.thebreak.roombooking.common.response.ResponseResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Map;
-
-
-@FeignClient(value = "payment", url = "http://" + "${bookingFeign.payment-host-name}" +":8084/api/v1/payment")
+@FeignClient(value = "roombooking-payment/api/v1/email/")
 public interface PaymentFeign {
 
-    @GetMapping("/getToken")
-    ResponseResult<Map<String, String>> getToken();
+    @GetMapping("getToken")
+    void getToken();
 
-    @GetMapping("/pay/{nonce}")
-    ResponseResult<?> makePayment(@PathVariable String nonce,
+    @GetMapping("pay/{nonce}")
+    void makePayment(@PathVariable String nonce,
                      @RequestParam String bookingId,
                      @RequestParam int amount );
 }

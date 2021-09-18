@@ -12,22 +12,12 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 @Service
-public class NotificationEmail {
+public class BookingMailSender {
     @Autowired
     private JavaMailSender javaMailSender;
 
     @Value("${spring.mail.username}")
     private String from;
-
-    @Async
-    public void sendSimpleTextEmail(String to, String subject, String text) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(from);
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(text);
-        javaMailSender.send(message);
-    }
 
     @Async
     public void sendHtmlBodyEmail(String to, String subject, String bodyHtml) throws MessagingException {
@@ -40,6 +30,16 @@ public class NotificationEmail {
         helper.setText(bodyHtml, true);
 
         javaMailSender.send(message);
-
     }
+
+    @Async
+    public void sendSimpleTextEmail(String to, String subject, String text) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(from);
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+        javaMailSender.send(message);
+    }
+
 }

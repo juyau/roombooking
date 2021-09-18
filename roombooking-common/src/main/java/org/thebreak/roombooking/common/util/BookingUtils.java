@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public class BookingUtils {
 
     public static boolean isEmail(String email) {
-        String regex = "^(\\w+([-.][A-Za-z0-9]+)*){3,32}@\\w+([-.][A-Za-z0-9]+)*\\.\\w{2}([-.][A-Za-z0-9]{2})*$";
+        String regex = "^(\\w+([-.][A-Za-z0-9]+)*){3,32}@\\w+([-.][A-Za-z0-9]+)*\\.\\w{2,}([-.][A-Za-z0-9]{2,})*$";
         if(email != null && !email.isEmpty() ){
             return Pattern.matches(
                     regex, email);

@@ -34,7 +34,7 @@ public class BookingTimeOutCheck {
         for (Booking booking : bookingList) {
             // close bookings older than 30 mins
             if (booking.getCreatedAt().isBefore(now.minusMinutes(30))) {
-                bookingService.updateStatusById(booking.getId(), BookingStatusEnum.CLOSED.getCode(), 1L);
+                bookingService.updateStatusById(booking.getId(), BookingStatusEnum.CLOSED.getCode(), null);
                 System.out.println("checkAndCloseBooking: set status to closed");
             }
         }

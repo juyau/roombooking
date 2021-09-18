@@ -1,17 +1,10 @@
-package org.thebreak.roombooking.email.model;
+package org.thebreak.roombooking.common.model;
 
-
-import io.swagger.v3.oas.annotations.media.Schema;
 
 public class EmailBO {
 
-    @Schema(example = "philip@gmail.com")
     private String to;
-
-    @Schema(example = "Booking Payment notification")
     private String subject;
-
-    @Schema(example = "Dear user, Thank you for...")
     private String body;
 
     public EmailBO(String to, String subject, String body) {
