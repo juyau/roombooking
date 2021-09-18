@@ -15,90 +15,43 @@ node {
         checkout([$class: 'GitSCM', branches: [[name: "*/${branch}"]], extensions: [[$class: 'PathRestriction', excludedRegions: '', includedRegions: 'roombooking-app/.*']], userRemoteConfigs: [[credentialsId: "${credentialsId}", url: "${gitUrl}"]]])
     }
 
-
-    stage('install common module') {
-        sh "mvn -f roombooking-common clean install"
-    }
-
-    stage('install microservice module') {
-        sh "mvn -f ${project_name} clean package -Dmaven.test.skip=true"
-    }
-
-    stage('delete old  image') {
-        sh '''imageId=$(docker images | grep "$project_name" | awk \'{print $3}\')
-            if [ "$imageId" != "" ]
-            then
-            echo "image exists, deleting..."
-            docker rmi -f "$imageId"
-            echo "image deleted success."
-            fi'''
-    }
-
-    stage('docker build image') {
-        sh "docker build -f ${project_name}/Dockerfile --build-arg JAR_FILE=${project_name}/target/${project_name}-1.0-SNAPSHOT.jar -t ${dockerUser}/${imageName}:${tag} ."
-    }
-
-    stage('push image to docker hub') {
-        withCredentials([usernamePassword(credentialsId: "${dockerCredential}", passwordVariable: 'password', usernameVariable: 'username')]) {
-            sh "docker login -u ${username} -p ${password} "
-            sh "docker push ${dockerUser}/${imageName}:${tag}"
-            echo "Image pushed to docker hub success."
-        }
-    }
-
-    stage('SSH execCommand') {
-        sshPublisher(publishers: [sshPublisherDesc(configName: 'aws-prod', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: "/opt/jenkins_shell/deploy.sh ${dockerUser} ${project_name} ${tag} ${docker_network} ${port}", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
-    }
-
-
 //
-//         stage('maven build') {
-//             steps {
-//                  echo 'maven build.....'
-//                  sh 'mvn clean package -Dmaven.test.skip=true'
-//             }
-//         }
+//     stage('install common module') {
+//         sh "mvn -f roombooking-common clean install"
+//     }
 //
-//         stage('check container and delete') {
-//             steps {
-//                  sh '''echo \'check if container exists\'
-//                  containerid=`docker ps -a | grep jenkinsdemo | awk \'{print $1}\'`
-//                  if [ "$containerid" != "" ];then
-//                          echo \'container exists, stop it\'
-//                          docker stop $containerid
-//                          echo \'delete container\'
-//                          docker rm $containerid
-//                  fi'''
-//             }
-//         }
+//     stage('install microservice module') {
+//         sh "mvn -f ${project_name} clean package -Dmaven.test.skip=true"
+//     }
 
-//         stage('check image and delete') {
-//             steps {
-//                 sh '''echo \'check if image exists\'
-//                 imageid=`docker images | grep jenkinsdemo | awk \'{print $3}\'`
-//                 if [ "$imageid" != "" ];then
-//                         echo \'delete image\'
-//                         docker rmi -f $imageid
-//                 fi'''
-//             }
-//         }
+//     stage('delete old  image') {
+//         sh '''imageId=$(docker images | grep "$project_name" | awk \'{print $3}\')
+//             if [ "$imageId" != "" ]
+//             then
+//             echo "image exists, deleting..."
+//             docker rmi -f "$imageId"
+//             echo "image deleted success."
+//             fi'''
+//     }
 //
-//         stage('docker build') {
-//             steps {
-//                  echo 'docker build'
-//                  sh '''docker build --build-arg JAR_FILE=target/jenkinsdemo.jar -t hcoin/jenkinsdemo:1.0 .'''
+//     stage('docker build image') {
+//         sh "docker build -f ${project_name}/Dockerfile --build-arg JAR_FILE=${project_name}/target/${project_name}-1.0-SNAPSHOT.jar -t ${dockerUser}/${imageName}:${tag} ."
+//     }
 //
-//             }
+//     stage('push image to docker hub') {
+//         withCredentials([usernamePassword(credentialsId: "${dockerCredential}", passwordVariable: 'password', usernameVariable: 'username')]) {
+//             sh "docker login -u ${username} -p ${password} "
+//             sh "docker push ${dockerUser}/${imageName}:${tag}"
+//             echo "Image pushed to docker hub success."
 //         }
+//     }
 //
-//         stage('docker run') {
-//             steps {
-//                  echo 'docker start to run.....'
-//                  sh 'docker run -itd --name jenkinsdemo -p 7777:8888 hcoin/jenkinsdemo:1.0'
-//             }
-//         }
+//     stage('SSH execCommand') {
+//         sshPublisher(publishers: [sshPublisherDesc(configName: 'aws-prod', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: "/opt/jenkins_shell/deploy.sh ${dockerUser} ${project_name} ${tag} ${docker_network} ${port}", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+//     }
 
-    }
+
+}
 
 //      post {
 //         success {
