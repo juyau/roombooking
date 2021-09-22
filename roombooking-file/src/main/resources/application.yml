@@ -8,8 +8,7 @@ cloud:
     stack:
       auto: false
     credentials:
-      access-key: AKIAW7WZMZLNORHKFZ3W
-      secretKey: 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
+
 bookingBucket:
   name: bookingstorage
 spring:
