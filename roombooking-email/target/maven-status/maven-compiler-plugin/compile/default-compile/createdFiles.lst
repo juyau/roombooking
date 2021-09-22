@@ -1,4 +1,0 @@
-org/thebreak/roombooking/email/EmailApplication.class
-org/thebreak/roombooking/email/service/EmailService.class
-org/thebreak/roombooking/email/controller/EmailController.class
-org/thebreak/roombooking/email/util/BookingMailSender.class

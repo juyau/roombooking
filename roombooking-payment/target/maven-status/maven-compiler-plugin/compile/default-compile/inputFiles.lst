@@ -1,9 +1,0 @@
-/Users/sam/IdeaProjects/roombooking/roombooking-payment/src/main/java/org/thebreak/roombooking/payment/dao/PaymentRepository.java
-/Users/sam/IdeaProjects/roombooking/roombooking-payment/src/main/java/org/thebreak/roombooking/payment/service/PaymentService.java
-/Users/sam/IdeaProjects/roombooking/roombooking-payment/src/main/java/org/thebreak/roombooking/payment/controller/PaymentController.java
-/Users/sam/IdeaProjects/roombooking/roombooking-payment/src/main/java/org/thebreak/roombooking/payment/PaymentApplication.java
-/Users/sam/IdeaProjects/roombooking/roombooking-payment/src/main/java/org/thebreak/roombooking/payment/model/BaseEntity.java
-/Users/sam/IdeaProjects/roombooking/roombooking-payment/src/main/java/org/thebreak/roombooking/payment/model/TypeAndRangeBO.java
-/Users/sam/IdeaProjects/roombooking/roombooking-payment/src/main/java/org/thebreak/roombooking/payment/model/Payment.java
-/Users/sam/IdeaProjects/roombooking/roombooking-payment/src/main/java/org/thebreak/roombooking/payment/model/TotalAndCountVO.java
-/Users/sam/IdeaProjects/roombooking/roombooking-payment/src/main/java/org/thebreak/roombooking/payment/service/PaymentServiceImpl.java
