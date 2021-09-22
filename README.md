@@ -1,7 +1,13 @@
 # Roombooking Springboot microservice project
 Springboot microservice booking system with Docker Jenkins CICD
+## AWS host url
+#### gateway url
+http://www.nobrainer.link:8080/api/v1/app/swagger-ui.html
+#### swagger testable url
+http://www.nobrainer.link:8081/api/v1/app/swagger-ui.html
+http://www.nobrainer.link:8086/api/v1/dicts/swagger-ui.html
 ## Tech Stack
-Springboot SpingCloud
+Springboot, Spring data Mongo, Kafka, Braintree payment, Docker, Jenkins
 ## Jenkins work flow
 ![image](https://user-images.githubusercontent.com/32782723/133067158-a7a7d992-6264-41d6-9939-36dad1b595cb.png)
 #### Jenkins project setting
