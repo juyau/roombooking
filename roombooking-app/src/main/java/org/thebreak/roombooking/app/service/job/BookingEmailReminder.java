@@ -25,7 +25,7 @@ public class BookingEmailReminder {
     @Autowired
     EmailFeign emailFeign;
 
-    @Scheduled(cron = "15 1/1 * * * ?")
+    @Scheduled(cron = "0 0 9 * * ?")
     public void checkAndCloseBooking() {
 
         // bookedAt > 30 min and status == unpaid; -> status set to closed; close reason: booking timeout;

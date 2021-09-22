@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwww.theymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Notification</title>
+</head>
+<body>
+    Hi, <span th:text="${name}" style="font-weight: bold"></span>,
+    <p>Thank you for booking on TheBreak!</p>
+    <p>Your booking for</p>
+    <div style='background-color: rgb(255, 255, 245); border-left: 4px solid cadetblue; padding: 8px 16px'>
+        Room: <span style='font-weight: bold' th:text="${roomTitle}"></span>
+        <p>Total booking of <span style='font-weight: bold' th:text="${totalHours}"></span> hours starting from <span style='font-weight: bold' th:text="${startTime}"></span></p>
+        <p>Total cost of <span style='font-weight: bold; color: coral'>$<span th:text="${amount}"></span></span></p>
+    </div>
+    <p>was successful. Please proceed to payment.</p>
+    <p>Note: unpaid bookings will be cancel after 30 minutes.</p>
+    <p>Best regards,</p>
+    <p>TheBreak Team</p>
+</body>
+</html>

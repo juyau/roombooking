@@ -1,0 +1,27 @@
+server:
+  port: 8086
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: roombooking-dictionary
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        register: true
+        instance-id: ${spring.application.name}-01
+        service-name: ${spring.application.name}
+        port: ${server.port}
+        prefer-ip-address: true
+        ip-address: ${spring.cloud.client.ip-address}
+
+springdoc:
+  swagger-ui:
+    path: /api/v1/dicts/swagger-ui.html
+  api-docs:
+    path: /api/v1/dicts/api-docs
+    groups:
+      enabled: true

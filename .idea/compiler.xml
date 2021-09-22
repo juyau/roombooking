@@ -8,10 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="roombooking-app" />
-        <module name="roombooking-email" />
+        <module name="roombooking-file" />
         <module name="roombooking-payment" />
-        <module name="gateway" />
         <module name="roombooking-dictionary" />
+        <module name="roombooking-email" />
+        <module name="gateway" />
         <module name="roombooking-common" />
       </profile>
     </annotationProcessing>
@@ -27,6 +28,7 @@
       <module name="roombooking-dictionary" options="-parameters" />
       <module name="roombooking-email" options="-parameters" />
       <module name="roombooking-eureka" options="-parameters" />
+      <module name="roombooking-file" options="-parameters" />
       <module name="roombooking-payment" options="-parameters" />
     </option>
   </component>

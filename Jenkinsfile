@@ -24,31 +24,31 @@ node {
         sh "mvn -f ${project_name} clean package -Dmaven.test.skip=true"
     }
 
-//     stage('delete old  image') {
-//         sh '''imageId=$(docker images | grep "$project_name" | awk \'{print $3}\')
-//             if [ "$imageId" != "" ]
-//             then
-//             echo "image exists, deleting..."
-//             docker rmi -f "$imageId"
-//             echo "image deleted success."
-//             fi'''
-//     }
-//
-//     stage('docker build image') {
-//         sh "docker build -f ${project_name}/Dockerfile --build-arg JAR_FILE=${project_name}/target/${project_name}-1.0-SNAPSHOT.jar -t ${dockerUser}/${imageName}:${tag} ."
-//     }
-//
-//     stage('push image to docker hub') {
-//         withCredentials([usernamePassword(credentialsId: "${dockerCredential}", passwordVariable: 'password', usernameVariable: 'username')]) {
-//             sh "docker login -u ${username} -p ${password} "
-//             sh "docker push ${dockerUser}/${imageName}:${tag}"
-//             echo "Image pushed to docker hub success."
-//         }
-//     }
-//
-//     stage('SSH execCommand') {
-//         sshPublisher(publishers: [sshPublisherDesc(configName: 'aws-prod', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: "/opt/jenkins_shell/deploy.sh ${dockerUser} ${project_name} ${tag} ${docker_network} ${port}", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
-//     }
+    stage('delete old  image') {
+        sh '''imageId=$(docker images | grep "$project_name" | awk \'{print $3}\')
+            if [ "$imageId" != "" ]
+            then
+            echo "image exists, deleting..."
+            docker rmi -f "$imageId"
+            echo "image deleted success."
+            fi'''
+    }
+
+    stage('docker build image') {
+        sh "docker build -f ${project_name}/Dockerfile --build-arg JAR_FILE=${project_name}/target/${project_name}-1.0-SNAPSHOT.jar -t ${dockerUser}/${imageName}:${tag} ."
+    }
+
+    stage('push image to docker hub') {
+        withCredentials([usernamePassword(credentialsId: "${dockerCredential}", passwordVariable: 'password', usernameVariable: 'username')]) {
+            sh "docker login -u ${username} -p ${password} "
+            sh "docker push ${dockerUser}/${imageName}:${tag}"
+            echo "Image pushed to docker hub success."
+        }
+    }
+
+    stage('SSH execCommand') {
+        sshPublisher(publishers: [sshPublisherDesc(configName: 'aws-prod', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: "/opt/jenkins_shell/deploy.sh ${dockerUser} ${project_name} ${tag} ${docker_network} ${port}", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+    }
 
 
 }

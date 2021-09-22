@@ -1,0 +1,22 @@
+server:
+  port: 8084
+
+braintree:
+  ENVIRONMENT: sandbox
+  MERCHANT_ID: 6qnmyyxzhv382x4h
+  PUBLIC_KEY: zv4wcr6q7txvwxbd
+  PRIVATE_KEY: 7f9abd76c83b6b915384a4adf06bf9fc
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: roombooking-payment
+
+springdoc:
+  swagger-ui:
+    path: /api/v1/payment/swagger-ui.html
+  api-docs:
+    path: /api/v1/payment/api-docs
+    groups:
+      enabled: true

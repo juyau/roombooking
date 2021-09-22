@@ -1,0 +1,16 @@
+server:
+  port: 8081
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: roombooking-app
+
+springdoc:
+  swagger-ui:
+    path: /api/v1/app/swagger-ui.html
+  api-docs:
+    path: /api/v1/app/api-docs
+    groups:
+      enabled: true

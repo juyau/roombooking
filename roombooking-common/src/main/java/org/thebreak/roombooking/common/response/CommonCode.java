@@ -37,6 +37,10 @@ public enum CommonCode {
     // payment code
     PAYMENT_START_MUST_BEFORE_END(false, 7001, "start date must not later than end date."),
 
+    // file code
+    S3_FILE_UPLOAD_FAILED(false, 7002, "S3 file upload failed."),
+    S3_FILE_DELETE_FAILED(false, 7003, "S3 file delete failed."),
+
     // database access code
     DB_ENTRY_ALREADY_EXIST(false, 3001, "entry already exist."),
     DB_EMPTY_LIST(true, 3002, "query list result is empty."),

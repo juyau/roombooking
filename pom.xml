@@ -16,6 +16,7 @@
         <module>roombooking-dictionary</module>
         <module>gateway</module>
         <module>roombooking-eureka</module>
+        <module>roombooking-file</module>
 
     </modules>
 
