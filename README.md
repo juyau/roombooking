@@ -5,6 +5,7 @@ Springboot microservice booking system with Docker Jenkins CICD
 http://www.nobrainer.link:8080/api/v1/app/swagger-ui.html
 #### swagger testable url
 http://www.nobrainer.link:8081/api/v1/app/swagger-ui.html
+
 http://www.nobrainer.link:8086/api/v1/dicts/swagger-ui.html
 ## Tech Stack
 Springboot, Spring data Mongo, Kafka, Braintree payment, Docker, Jenkins
