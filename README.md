@@ -18,7 +18,7 @@ create each microservice as a separate build project so that each service can bu
 in each service build, in Pipeline page, there is Additional Behaviours -> Polling igures commits in cartain paths -> add condition in "Excluded Regions" to exclude other service modules, so that current build will only be triggered if the current module commited changes.
 
 ## Kafka 
-![img.png](img.png)
+![img_1.png](img_1.png)
 
 
 
