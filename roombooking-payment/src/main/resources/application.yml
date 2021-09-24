@@ -3,9 +3,9 @@ server:
 
 braintree:
   ENVIRONMENT: sandbox
-  MERCHANT_ID: 6qnmyyxzhv382x4h
-  PUBLIC_KEY: zv4wcr6q7txvwxbd
-  PRIVATE_KEY: 7f9abd76c83b6b915384a4adf06bf9fc
+  MERCHANT_ID: ${MERCHANT_ID}
+  PUBLIC_KEY: ${PUBLIC_KEY}
+  PRIVATE_KEY: ${PRIVATE_KEY}
 
 spring:
   profiles:

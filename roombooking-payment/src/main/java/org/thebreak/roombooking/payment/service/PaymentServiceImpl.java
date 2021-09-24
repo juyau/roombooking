@@ -90,7 +90,6 @@ public class PaymentServiceImpl implements PaymentService {
 
         // match
         Criteria criteria = new Criteria();
-
         if(type != null){
             criteria.and("type").is(type);
         }
@@ -152,7 +151,6 @@ public class PaymentServiceImpl implements PaymentService {
                 pageable,
                 () -> mongoTemplate.count(query.limit(-1).skip(-1), Payment.class));
 
-
         return paymentPage;
     }
 
@@ -165,6 +163,8 @@ public class PaymentServiceImpl implements PaymentService {
             Transaction transaction = result.getTarget();
             String transactionId = transaction.getId();
             Payment payment = savePayment(bookingId, amount, transactionId, type);
+            // TODO send message to MQ;
+
             return ResponseResult.success(payment);
         } else {
             String message = result.getMessage();
