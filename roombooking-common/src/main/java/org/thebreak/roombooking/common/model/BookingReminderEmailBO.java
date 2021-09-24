@@ -9,6 +9,8 @@ public class BookingReminderEmailBO {
     private int totalHours;
     private String StartTime;
 
+    public BookingReminderEmailBO() {
+    }
 
     public BookingReminderEmailBO(String toEmailAddress, String customerName, String roomTitle, int totalHours, String startTime) {
         this.toEmailAddress = toEmailAddress;
@@ -16,14 +18,6 @@ public class BookingReminderEmailBO {
         this.roomTitle = roomTitle;
         this.totalHours = totalHours;
         StartTime = startTime;
-    }
-
-    public int getTotalHours() {
-        return totalHours;
-    }
-
-    public void setTotalHours(int totalHours) {
-        this.totalHours = totalHours;
     }
 
     public String getToEmailAddress() {
@@ -50,6 +44,14 @@ public class BookingReminderEmailBO {
         this.roomTitle = roomTitle;
     }
 
+    public int getTotalHours() {
+        return totalHours;
+    }
+
+    public void setTotalHours(int totalHours) {
+        this.totalHours = totalHours;
+    }
+
     public String getStartTime() {
         return StartTime;
     }
@@ -58,4 +60,14 @@ public class BookingReminderEmailBO {
         StartTime = startTime;
     }
 
+    @Override
+    public String toString() {
+        return "BookingReminderEmailBO{" +
+                "toEmailAddress='" + toEmailAddress + '\'' +
+                ", customerName='" + customerName + '\'' +
+                ", roomTitle='" + roomTitle + '\'' +
+                ", totalHours=" + totalHours +
+                ", StartTime='" + StartTime + '\'' +
+                '}';
+    }
 }

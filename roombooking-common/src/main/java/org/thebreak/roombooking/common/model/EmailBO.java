@@ -1,7 +1,9 @@
 package org.thebreak.roombooking.common.model;
 
 
-public class EmailBO {
+import java.io.Serializable;
+
+public class EmailBO implements Serializable {
 
     private String to;
     private String subject;

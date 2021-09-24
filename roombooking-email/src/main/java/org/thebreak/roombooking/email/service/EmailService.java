@@ -2,6 +2,7 @@ package org.thebreak.roombooking.email.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.thebreak.roombooking.common.model.BookingNotificationEmailBO;
 import org.thebreak.roombooking.common.model.BookingReminderEmailBO;
@@ -21,7 +22,17 @@ public class EmailService {
     @Autowired
     private TemplateEngine templateEngine;
 
+//    @KafkaListener(topics = "${spring.kafka.topic.test}")
+//    public void test(String msg){
+//        System.out.println("***************** received email topic ************");
+//        System.out.println(msg);
+//    }
+
+    @KafkaListener(topics = "${spring.kafka.topics.bookingEmailNotification}",
+            groupId = "${spring.kafka.consumer.group-id}",
+            containerFactory = "notificationListenerContainerFactory")
     public void sendBookingNotification(BookingNotificationEmailBO email){
+        System.out.println("Received email information: " + email);
         Context context = new Context();
         context.setVariable("name", email.getCustomerName());
         context.setVariable("roomTitle", email.getRoomTitle());
@@ -30,6 +41,7 @@ public class EmailService {
         context.setVariable("amount", email.getAmount());
 
         try {
+            System.out.println("Start to send notification email...");
             String bookingNotification = templateEngine.process("bookingNotificationEmail", context);
             emailSender.sendHtmlBodyEmail(email.getToEmailAddress(), "Your room booking with theBreak", bookingNotification);
         } catch (MessagingException e) {
@@ -37,7 +49,9 @@ public class EmailService {
         }
     }
 
+    @KafkaListener(topics = "${spring.kafka.topics.bookingEmailReminder}", groupId = "${spring.kafka.consumer.group-id}", containerFactory = "reminderListenerContainerFactory")
     public void sendBookingReminder(BookingReminderEmailBO email){
+        System.out.println("Received reminder email information: " + email);
         Context context = new Context();
         context.setVariable("name", email.getCustomerName());
         context.setVariable("roomTitle", email.getRoomTitle());
@@ -45,8 +59,9 @@ public class EmailService {
         context.setVariable("startTime", email.getStartTime());
 
         try {
-            String bookingNotification = templateEngine.process("bookingReminderEmail", context);
-            emailSender.sendHtmlBodyEmail(email.getToEmailAddress(), "Your booking reminder", bookingNotification);
+            System.out.println("Start to send reminder email...");
+            String reminderEmail = templateEngine.process("bookingReminderEmail", context);
+            emailSender.sendHtmlBodyEmail(email.getToEmailAddress(), "Your booking reminder", reminderEmail);
         } catch (MessagingException e) {
             e.printStackTrace();
         }

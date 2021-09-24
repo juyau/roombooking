@@ -26,6 +26,7 @@ import org.thebreak.roombooking.app.model.enums.BookingStatusEnum;
 import org.thebreak.roombooking.app.model.enums.RoomAvailableTypeEnum;
 import org.thebreak.roombooking.app.model.vo.BookingPreviewVO;
 import org.thebreak.roombooking.app.service.BookingService;
+import org.thebreak.roombooking.app.service.KafkaProducerService;
 import org.thebreak.roombooking.app.service.RoomService;
 import org.thebreak.roombooking.common.Constants;
 import org.thebreak.roombooking.common.exception.CustomException;
@@ -47,6 +48,10 @@ public class BookingServiceImpl implements BookingService {
 
     @Autowired
     private EmailFeign emailFeign;
+
+    @Autowired
+    private KafkaProducerService kafkaService;
+
     private final BookingRepository repository;
 
     private final RoomRepository roomRepository;
@@ -202,7 +207,7 @@ public class BookingServiceImpl implements BookingService {
         String formatedTime = startTime.format(dateTimeFormatter);
         String formatedAmout = PriceUtils.formatDollarString(totalAmount);
         BookingNotificationEmailBO emailBO = new BookingNotificationEmailBO(toEmail,userName,roomTitle, totalBookedHours, formatedTime, formatedAmout);
-        emailFeign.sendBookingNotification(emailBO);
+        kafkaService.sendBookingNotification(emailBO);
     }
 
     private void checkBookingBoEmptyOrNull(BookingBO bookingBO) {
@@ -401,7 +406,7 @@ public class BookingServiceImpl implements BookingService {
         }
 
         // if status to be paid, need to provide amount > 0
-        if (status == BookingStatusEnum.PAID.getCode() && paidAmount == null || paidAmount <= 0) {
+        if (status == BookingStatusEnum.PAID.getCode() && paidAmount <= 0) {
             CustomException.cast(CommonCode.BOOKING_PAID_WITHOUT_AMOUNT);
         }
 

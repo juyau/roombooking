@@ -1,18 +1,33 @@
 package org.thebreak.roombooking.app.controller;
 
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.thebreak.roombooking.app.service.KafkaProducerService;
+import org.thebreak.roombooking.common.model.BookingNotificationEmailBO;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = "api/v1/app/test")
+@RequestMapping(value = "api/v1/app/test/")
 class TestController2 {
+    @Autowired
+    private KafkaProducerService kafkaService;
 
     @GetMapping()
     public String getString(){
         return "test final??";
     }
+
+    @PostMapping("/sendNotification")
+    public String sendNotification(@RequestBody BookingNotificationEmailBO email)
+    {
+        kafkaService.sendBookingNotification(email);
+        return "Message sent successfully to the Kafka topic notification";
+    }
+
+//    @GetMapping("email")
+//    public String getString(@RequestParam String msg){
+//       kafkaService.testEmail(msg);
+//        return "OK";
+//    }
 }

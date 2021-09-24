@@ -1,7 +1,7 @@
 package org.thebreak.roombooking.common.model;
 
 
-public class BookingNotificationEmailBO {
+public class BookingNotificationEmailBO{
 
     private String toEmailAddress;
     private String customerName;
@@ -10,6 +10,9 @@ public class BookingNotificationEmailBO {
     private String StartTime;
     private String amount;
 
+    public BookingNotificationEmailBO() {
+    }
+
     public BookingNotificationEmailBO(String toEmailAddress, String customerName, String roomTitle, int totalHours, String startTime, String amount) {
         this.toEmailAddress = toEmailAddress;
         this.customerName = customerName;
@@ -17,14 +20,6 @@ public class BookingNotificationEmailBO {
         this.totalHours = totalHours;
         StartTime = startTime;
         this.amount = amount;
-    }
-
-    public int getTotalHours() {
-        return totalHours;
-    }
-
-    public void setTotalHours(int totalHours) {
-        this.totalHours = totalHours;
     }
 
     public String getToEmailAddress() {
@@ -51,6 +46,14 @@ public class BookingNotificationEmailBO {
         this.roomTitle = roomTitle;
     }
 
+    public int getTotalHours() {
+        return totalHours;
+    }
+
+    public void setTotalHours(int totalHours) {
+        this.totalHours = totalHours;
+    }
+
     public String getStartTime() {
         return StartTime;
     }
@@ -65,5 +68,17 @@ public class BookingNotificationEmailBO {
 
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public String toString() {
+        return "BookingNotificationEmailBO{" +
+                "toEmailAddress='" + toEmailAddress + '\'' +
+                ", customerName='" + customerName + '\'' +
+                ", roomTitle='" + roomTitle + '\'' +
+                ", totalHours=" + totalHours +
+                ", StartTime='" + StartTime + '\'' +
+                ", amount='" + amount + '\'' +
+                '}';
     }
 }

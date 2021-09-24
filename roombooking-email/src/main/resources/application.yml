@@ -15,6 +15,14 @@ spring:
         port: ${server.port}
         prefer-ip-address: true
         ip-address: ${spring.cloud.client.ip-address}
+  kafka:
+    bootstrap-servers: localhost:9092
+    topics:
+      bookingEmailNotification: bookingEmailNotification
+      bookingEmailReminder: bookingEmailReminder
+    consumer:
+      group-id: "thebreak-email"
+
 
   #  zipkin:
 #    sender:
@@ -26,8 +34,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: breaknotification@gmail.com
-    password:
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
     properties:
       mail:
         smtp:

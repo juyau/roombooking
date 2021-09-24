@@ -16,6 +16,13 @@ spring:
         port: ${server.port}
         prefer-ip-address: true
         ip-address: ${spring.cloud.client.ip-address}
+  kafka:
+    bootstrap-servers: localhost:9092
+    topics:
+      bookingEmailNotification: bookingEmailNotification
+      bookingEmailReminder: bookingEmailReminder
+      test: test
+
 
 #  zipkin:
 #    sender:

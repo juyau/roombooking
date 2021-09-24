@@ -8,8 +8,8 @@ cloud:
     stack:
       auto: false
     credentials:
-      access-key: xxxxx
-      secretKey: ddddd
+      accessKey: ${S3_ACCESS_KEY}
+      secretKey: ${S3_SECRET_KEY}
 bookingBucket:
   name: bookingstorage
 spring:
