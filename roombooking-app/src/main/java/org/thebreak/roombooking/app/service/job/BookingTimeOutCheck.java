@@ -21,7 +21,17 @@ public class BookingTimeOutCheck {
     @Autowired
     BookingRepository bookingRepository;
 
-    @Scheduled(cron = "20 * * * * ?")
+    // 1. create a variable, list of bookingId in payment process;
+    // 2. kafka listener, add to list of all payment in process;
+
+    // define a method "addPaymentInProcess" to add bookingId into a list here;
+    // in make payment service, when send out the nonce, call the method to add the payment process here;
+    // before close a booking, check if the bookingId in the process list, if yes, ignore and not close
+    // if not, close booking;
+
+    // a method listen to payment success, and remove from the list for paid bookings;
+
+    @Scheduled(cron = "0/20 * * * * ?")
     public void checkAndCloseBooking() {
 
         // bookedAt > 30 min and status == unpaid; -> status set to closed; close reason: booking timeout;
@@ -38,5 +48,6 @@ public class BookingTimeOutCheck {
                 log.info("BookingUnpaidClosed: booking with id {} set status to closed", booking.getId());
             }
         }
+
     }
 }

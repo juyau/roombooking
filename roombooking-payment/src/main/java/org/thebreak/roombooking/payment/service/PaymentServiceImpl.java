@@ -157,7 +157,9 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public ResponseResult<?> makePayment(String bookingId, int amount, String paymentMethodNonce, int type) {
 
-        Result<Transaction> result = requestPayment(PriceUtils.longToBigDecimalInDollar(amount), paymentMethodNonce);
+        // check if booking has been closed (for example, timeout)
+
+        Result<Transaction> result = requestPayment(PriceUtils.intToBigDecimalInDollar(amount), paymentMethodNonce);
 
         if (result.isSuccess()) {
             Transaction transaction = result.getTarget();

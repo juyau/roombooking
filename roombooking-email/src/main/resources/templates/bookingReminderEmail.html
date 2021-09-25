@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <title>Booking Reminder</title>
 </head>
-<body>
+<body style="line-height: 22px;">
     Hi, <span style="font-weight: bold" th:text="${name}"></span>,
-    <p>This is a curtsy reminder of your booking for tomorrow.</p>
-    <p>Please get prepared for your following booking</p>
-    <div style='background-color: rgb(177,205,246); border-left: 4px solid cadetblue; padding: 8px 16px'>
-        Room: <span style='font-weight: bold' th:text="${roomTitle}"></span>
-        <p>Total booking of <span style='font-weight: bold' th:text="${hours}"></span> hours starting from <span style='font-weight: bold' th:text="${startTime}"></span></p>
+    <p>This is a curtsy reminder of your booking for tomorrow.<br>
+    Please get prepared for your following booking:</p>
+    <div style='background-color: rgb(201,248,191); display: inline-block; border-radius: 4px; border-left: 4px solid cadetblue; padding: 8px 16px'>
+        Room: <span style='font-weight: bold' th:text="${roomTitle}"></span><br>
+        Total booking of <span style='font-weight: bold' th:text="${totalHours}"></span> hours starting from <span style='font-weight: bold' th:text="${startTime}"></span>
     </div>
     <p>You can check in ahead of the booking time.</p>
-    <p>Best regards,</p>
-    <p>TheBreak Team</p>
+    <p>Best regards,<br>
+    TheBreak Team</p>
 </body>
 </html>
