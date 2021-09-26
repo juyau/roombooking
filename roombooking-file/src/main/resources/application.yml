@@ -24,3 +24,11 @@ logging:
       amazonaws:
         util:
           EC2MetadataUtils: error
+
+springdoc:
+  swagger-ui:
+    path: /api/v1/file/swagger.html
+  api-docs:
+    path: /api/v1/file/api-docs
+    groups:
+      enabled: true

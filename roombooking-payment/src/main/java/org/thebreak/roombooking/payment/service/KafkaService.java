@@ -14,11 +14,8 @@ public class KafkaService {
     @Autowired
     private KafkaTemplate<String, Payment> template;
 
-    @Value("${spring.kafka.topics.bookingEmailNotification}")
+    @Value("${spring.kafka.topics.paymentSuccess}")
     String notificationTopic;
-
-    @Value("${spring.kafka.topics.bookingEmailReminder}")
-    String reminderTopic;
 
     public void sendPaymentNotification(Payment payment){
         template.send(notificationTopic, payment);

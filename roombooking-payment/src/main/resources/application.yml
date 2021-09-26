@@ -15,7 +15,7 @@ spring:
 
 springdoc:
   swagger-ui:
-    path: /api/v1/payment/swagger-ui.html
+    path: /api/v1/payment/swagger.html
   api-docs:
     path: /api/v1/payment/api-docs
     groups:

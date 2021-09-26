@@ -20,7 +20,7 @@ in each service build, in Pipeline page, there is Additional Behaviours -> Polli
 ## Kafka 
 ![img_1.png](img_1.png)
 
-
+test
 
 
 

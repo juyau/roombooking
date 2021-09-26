@@ -45,7 +45,7 @@ spring:
 
 springdoc:
   swagger-ui:
-    path: /api/v1/email/swagger-ui.html
+    path: /api/v1/email/swagger.html
   api-docs:
     path: /api/v1/email/api-docs
     groups:

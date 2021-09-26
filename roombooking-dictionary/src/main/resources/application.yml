@@ -20,7 +20,7 @@ spring:
 
 springdoc:
   swagger-ui:
-    path: /api/v1/dicts/swagger-ui.html
+    path: /api/v1/dicts/swagger.html
   api-docs:
     path: /api/v1/dicts/api-docs
     groups:

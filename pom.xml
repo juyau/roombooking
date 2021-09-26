@@ -15,7 +15,6 @@
         <module>roombooking-payment</module>
         <module>roombooking-dictionary</module>
         <module>gateway</module>
-        <module>roombooking-eureka</module>
         <module>roombooking-file</module>
 
     </modules>
@@ -28,8 +27,8 @@
     </parent>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <dependencyManagement>
@@ -99,6 +98,5 @@
 
         </dependencies>
     </dependencyManagement>
-
 
 </project>
