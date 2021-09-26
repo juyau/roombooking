@@ -7,6 +7,7 @@ README.md
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
-*/target/
+**/target/
 deploy.sh
 docker-compose.yml
+.idea
