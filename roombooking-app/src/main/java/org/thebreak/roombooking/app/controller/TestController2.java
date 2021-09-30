@@ -3,7 +3,7 @@ package org.thebreak.roombooking.app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.thebreak.roombooking.app.service.KafkaProducerService;
+import org.thebreak.roombooking.app.kafka.KafkaProducerService;
 import org.thebreak.roombooking.common.model.BookingNotificationEmailBO;
 
 @RestController
@@ -21,7 +21,7 @@ class TestController2 {
     @PostMapping("/sendNotification")
     public String sendNotification(@RequestBody BookingNotificationEmailBO email)
     {
-        kafkaService.sendBookingNotification(email);
+        kafkaService.sendBookingSuccess(email);
         return "Message sent successfully to the Kafka topic notification";
     }
 

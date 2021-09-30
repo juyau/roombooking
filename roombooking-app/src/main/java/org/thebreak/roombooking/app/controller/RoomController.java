@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.lang.Nullable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.thebreak.roombooking.app.model.BookingTimeRange;
 import org.thebreak.roombooking.app.model.Room;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Slf4j
 @OpenAPIDefinition(info = @Info(title = "Room Controller", description = "Controller for Room operations"))
 @RequestMapping(value = "api/v1/app/rooms")
@@ -86,7 +87,7 @@ public class RoomController {
     @PostMapping(value = "/add")
     @Operation(summary = "Add a new room",
             description = "room address and room number cannot be the same with exist records. Note: no need to provide id")
-    public ResponseResult<RoomVO> addRoom(@RequestBody @Parameter(description = "room details, no need to provide id") Room room) {
+    public ResponseResult<RoomVO> addRoom(@Validated @RequestBody @Parameter(description = "room details, no need to provide id") Room room) {
         Room r = roomService.add(room);
         RoomVO roomVO = new RoomVO();
         BeanUtils.copyProperties(r, roomVO);

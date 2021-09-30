@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class Booking extends BaseEntity {
     private String userId;
 
     @Field("contact")
+    @NotNull
     @Schema(description = "contact person info")
     private BookingContact contact;
 
@@ -45,6 +47,7 @@ public class Booking extends BaseEntity {
 
     @Field("booked_time")
     @Schema(example = "example")
+    @NotNull
     private List<BookingTimeRange> bookedTime;
 
     @Field("status")

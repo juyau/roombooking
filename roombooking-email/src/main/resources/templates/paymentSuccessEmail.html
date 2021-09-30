@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwww.theymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Notification</title>
+</head>
+<body style="line-height: 22px;">
+    Hi, <span th:text="${name}" style="font-weight: bold"></span>,
+    <p>Your payment for following booking: </p>
+    <div style='background-color: rgb(255,255,222);display: inline-block; border-radius: 4px;border-left: 4px solid #5f9ea0; padding: 8px 16px'>
+        Room: <span style='font-weight: bold' th:text="${roomTitle}"></span><br>
+        Total booking of <span style='font-weight: bold' th:text="${totalHours}"></span> hours starting from <span style='font-weight: bold' th:text="${startTime}"></span><br>
+        Total cost of <span style='font-weight: bold; color: coral'>$<span th:text="${amount}"></span></span>
+    </div>
+    <p>was successful. </p><br>
+    <p>Best regards,<br>
+    TheBreak Team</p>
+</body>
+</html>

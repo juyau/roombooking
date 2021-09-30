@@ -15,3 +15,11 @@ springdoc:
     path: /api/v1/app/api-docs
     groups:
       enabled: true
+
+thebreak:
+  roombooking:
+    pre-day-reminder-sendout-clock: 10     # what hour in the day to send out reminder email
+    payment-close-time-in-min: 15         # waiting time for the unpaid booking to be closed
+    close-booking-wait-time-in-second: 10 # wait time before send out close email, in case the booking is closed during the payment process
+    should-send-bookingSuccessEmail: 1    # 1 - send, 0 - do not send;
+

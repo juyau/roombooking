@@ -18,8 +18,10 @@ spring:
   kafka:
     bootstrap-servers: localhost:9092
     topics:
-      bookingEmailNotification: bookingEmailNotification
-      bookingEmailReminder: bookingEmailReminder
+      bookingSuccess: bookingSuccess
+      bookingReminder: bookingReminder
+      bookingClose: bookingClose
+      paymentSuccess: paymentSuccess
     consumer:
       group-id: "thebreak-email"
 

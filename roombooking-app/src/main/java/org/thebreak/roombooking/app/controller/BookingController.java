@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.lang.Nullable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.thebreak.roombooking.app.feign.EmailFeign;
 import org.thebreak.roombooking.app.model.Booking;
@@ -18,16 +19,20 @@ import org.thebreak.roombooking.app.model.bo.BookingBO;
 import org.thebreak.roombooking.app.model.vo.BookingPreviewVO;
 import org.thebreak.roombooking.app.model.vo.BookingVO;
 import org.thebreak.roombooking.app.service.BookingService;
+import org.thebreak.roombooking.common.model.PaymentEmailBO;
 import org.thebreak.roombooking.common.response.CommonCode;
 import org.thebreak.roombooking.common.response.PageResult;
 import org.thebreak.roombooking.common.response.ResponseResult;
+import org.thebreak.roombooking.common.util.BookingUtils;
+import org.thebreak.roombooking.common.util.PriceUtils;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Slf4j
 @OpenAPIDefinition(info = @Info(title = "Booking Controller", description = "Controller for booking operations"))
 @RequestMapping(value = "api/v1/app/bookings")
@@ -41,7 +46,7 @@ public class BookingController {
     @PostMapping(value = "/add")
     @Operation(summary = "Add a new booking",
             description = "provide roomId and list of booking range")
-    public ResponseResult<BookingPreviewVO> addBooking(@RequestBody @Parameter(description = "room details, no need to provide id") BookingBO bookingBO) {
+    public ResponseResult<BookingPreviewVO> addBooking(@Validated @RequestBody @Parameter(description = "room details, no need to provide id") BookingBO bookingBO) {
         BookingPreviewVO b = bookingService.add(bookingBO);
         return ResponseResult.success(b);
     }
@@ -53,7 +58,7 @@ public class BookingController {
     public ResponseResult<BookingVO> updateStatusById(
             @RequestParam @Parameter(description = "booking id") String id,
             @Parameter(description = "status to be updated to") int status,
-            @Parameter(description = "paidAmount in Long") @Nullable Long paidAmount
+            @Parameter(description = "paidAmount in Long") @Nullable int paidAmount
     ) {
         Booking b = bookingService.updateStatusById(id, status, paidAmount);
         BookingVO bookingVO = new BookingVO();
@@ -139,11 +144,42 @@ public class BookingController {
         return ResponseResult.success(bookingVO);
     }
 
+    @Operation(summary = "internal use, get paymentEmailBO for payment success notification email",
+            description = "get paymentEmailBO for email module")
+    @GetMapping(value = "/getPaymentEmailBObyId/{id}")
+    public ResponseResult<PaymentEmailBO> getPaymentEmailBOById(@PathVariable @NotNull String id) {
+        Booking b = bookingService.findById(id);
+        PaymentEmailBO emailBO = new PaymentEmailBO();
+        String dollarString = PriceUtils.formatDollarString(b.getTotalAmount());
+
+        emailBO.setToEmailAddress(b.getContact().getEmail());
+        emailBO.setCustomerName(b.getContact().getName());
+        emailBO.setRoomTitle(b.getRoom().getTitle());
+        String stingDateTimeFormatter = BookingUtils.emailStingDateTimeFormatter(b.getBookedTime().get(0).getStart());
+        emailBO.setStartTime(stingDateTimeFormatter);
+        emailBO.setAmount(dollarString);
+        emailBO.setTotalHours(b.getTotalHours());
+        return ResponseResult.success(emailBO);
+    }
+
     @Operation(summary = "Get future booking for a specific room detail by room id",
             description = "id provided as path variable.")
     @GetMapping(value = "/getRoomFutureBookings/{id}")
     public ResponseResult<List<BookingTimeRange>> findFutureBookedTimesByRoomId(@PathVariable @NotNull String id) {
         List<BookingTimeRange> list = bookingService.findFutureBookedTimesByRoom(id, null);
+        return ResponseResult.success(list);
+    }
+
+    @Operation(summary = "Get booked times in a range for a specific room detail by room id",
+            description = "id provided as path variable.")
+    @GetMapping(value = "/getBookedTimesByRoomInRange/{id}")
+    public ResponseResult<List<BookingTimeRange>> findBookedTimesByRoomInRange(
+            @PathVariable @NotNull String id,
+            @RequestParam String start,
+            @RequestParam String end) {
+        LocalDateTime startTime = LocalDateTime.parse(start);
+        LocalDateTime endTime = LocalDateTime.parse(end);
+        List<BookingTimeRange> list = bookingService.findBookedTimesByRoomInRange(id, startTime, endTime);
         return ResponseResult.success(list);
     }
 

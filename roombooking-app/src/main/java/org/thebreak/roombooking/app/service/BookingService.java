@@ -6,6 +6,7 @@ import org.thebreak.roombooking.app.model.BookingTimeRange;
 import org.thebreak.roombooking.app.model.bo.BookingBO;
 import org.thebreak.roombooking.app.model.vo.BookingPreviewVO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BookingService {
@@ -23,8 +24,10 @@ public interface BookingService {
 
     Booking updateById(Booking booking);
 
-    // param city can not null, if null, will get city value from db query
+    // if param city can is null, will get city value from db query
     List<BookingTimeRange> findFutureBookedTimesByRoom(String roomId, String city);
 
-    Booking updateStatusById(String id, int status, Long paidAmount);
+    List<BookingTimeRange> findBookedTimesByRoomInRange(String roomId, LocalDateTime start, LocalDateTime end);
+
+    Booking updateStatusById(String id, int status, int paidAmount);
 }

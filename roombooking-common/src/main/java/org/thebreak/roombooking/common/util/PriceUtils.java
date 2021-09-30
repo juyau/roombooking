@@ -8,9 +8,15 @@ public class PriceUtils {
     }
 
     public static String formatDollarString(int amount) {
-        String amountString = amount + "";
-        amountString = amountString.substring(0, amountString.length() - 2) + "." + amountString.substring(amountString.length() - 2);
-        return amountString;
+        if(amount < 10){
+           return "0.0" + amount;
+        } else if((amount < 100)) {
+            return "0." + amount;
+        } else {
+            String amountString = amount + "";
+            amountString = amountString.substring(0, amountString.length() - 2) + "." + amountString.substring(amountString.length() - 2);
+            return amountString;
+        }
     }
 
     public static int BigDecimalToIntInCent(BigDecimal amount) {

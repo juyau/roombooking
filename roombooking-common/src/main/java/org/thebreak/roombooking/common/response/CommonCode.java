@@ -33,9 +33,13 @@ public enum CommonCode {
     BOOKING_CONTACT_NOTNULL(false, 6009, "contact name, email, mobile are all required."),
     BOOKING_EMAIL_INVALID(false, 6010, "email invalid."),
     BOOKING_SENDEMAIL_FAILED(false, 6011, "failed to send notification email."),
+    BOOKING_ALREADY_CLOSED(false, 6012, "this booking has been closed."),
+    BOOKING_DATE_RESERVED(false, 6013, "booking included reserved dates."),
+    BOOKING_OUT_OF_RANGE(false, 6014, "booking is outside the hour range in the day."),
 
     // payment code
     PAYMENT_START_MUST_BEFORE_END(false, 7001, "start date must not later than end date."),
+    PAYMENT_ALREADY_MADE(false, 7002, "this booking has been paid already."),
 
     // file code
     S3_FILE_UPLOAD_FAILED(false, 7002, "S3 file upload failed."),

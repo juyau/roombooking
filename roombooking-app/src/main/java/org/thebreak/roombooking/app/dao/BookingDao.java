@@ -13,7 +13,6 @@ public class BookingDao {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-
     public List<Booking> findList(Query query) {
         return mongoTemplate.find(query, Booking.class);
     }

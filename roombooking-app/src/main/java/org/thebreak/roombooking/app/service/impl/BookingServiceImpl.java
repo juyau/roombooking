@@ -3,6 +3,7 @@ package org.thebreak.roombooking.app.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,17 +18,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thebreak.roombooking.app.dao.BookingRepository;
 import org.thebreak.roombooking.app.dao.RoomRepository;
-import org.thebreak.roombooking.app.feign.EmailFeign;
+import org.thebreak.roombooking.app.kafka.KafkaProducerService;
 import org.thebreak.roombooking.app.model.Booking;
 import org.thebreak.roombooking.app.model.BookingTimeRange;
 import org.thebreak.roombooking.app.model.Room;
 import org.thebreak.roombooking.app.model.bo.BookingBO;
 import org.thebreak.roombooking.app.model.enums.BookingStatusEnum;
-import org.thebreak.roombooking.app.model.enums.RoomAvailableTypeEnum;
 import org.thebreak.roombooking.app.model.vo.BookingPreviewVO;
 import org.thebreak.roombooking.app.service.BookingService;
-import org.thebreak.roombooking.app.service.KafkaProducerService;
+import org.thebreak.roombooking.app.service.BookingTimeValidator;
 import org.thebreak.roombooking.app.service.RoomService;
+import org.thebreak.roombooking.app.service.job.BookingCloseTiming;
 import org.thebreak.roombooking.common.Constants;
 import org.thebreak.roombooking.common.exception.CustomException;
 import org.thebreak.roombooking.common.model.BookingNotificationEmailBO;
@@ -46,8 +47,9 @@ import java.util.Optional;
 @Slf4j
 public class BookingServiceImpl implements BookingService {
 
-    @Autowired
-    private EmailFeign emailFeign;
+//    @Autowired
+//    private EmailFeign emailFeign;
+
 
     @Autowired
     private KafkaProducerService kafkaService;
@@ -57,6 +59,15 @@ public class BookingServiceImpl implements BookingService {
     private final RoomRepository roomRepository;
 
     private final RoomService roomService;
+
+    @Autowired
+    private BookingCloseTiming bookingCloseTiming;
+
+    @Autowired
+    private BookingTimeValidator timeValidator;
+
+    @Value("${thebreak.roombooking.should-send-bookingSuccessEmail}")
+    private int shouldSendBookingSuccessEmail;
 
 
     public BookingServiceImpl(BookingRepository repository, RoomRepository roomRepository, RoomService roomService, MongoTemplate mongoTemplate) {
@@ -78,88 +89,12 @@ public class BookingServiceImpl implements BookingService {
         }
         Room room = optionalRoom.get();
 
-        int totalBookedHours = 0;
-
         List<BookingTimeRange> bookingTimeList = bookingBO.getBookingTime();
-        for (BookingTimeRange bookingTimeRange : bookingTimeList) {
 
-            LocalDateTime start = bookingTimeRange.getStart();
-            LocalDateTime end = bookingTimeRange.getEnd();
-
-            // 0. check end time must later than start time
-            if (!end.isAfter(start)) {
-                CustomException.cast(CommonCode.BOOKING_END_BEFORE_START);
-                System.out.println(end);
-            }
-
-            // 1. check start or end time must later than current time
-            if (!BookingUtils.checkBookingTimeAfterNow(start, room.getCity())) {
-                CustomException.cast(CommonCode.BOOKING_TIME_EARLIER_THAN_NOW);
-            }
-            if (!BookingUtils.checkBookingTimeAfterNow(end, room.getCity())) {
-                CustomException.cast(CommonCode.BOOKING_TIME_EARLIER_THAN_NOW);
-            }
-
-
-            // 2. check start or end time matches available type (weekend or weekday)
-            boolean isWeekendType = room.getAvailableType() == RoomAvailableTypeEnum.WEEKEND.getCode();
-            if (isWeekendType) {
-                // cast exception if type is weekend but booking time is weekday
-                if (!BookingUtils.checkIsWeekend(start) || !BookingUtils.checkIsWeekend(end)) {
-                    CustomException.cast(CommonCode.BOOKING_WEEKEND_ONLY);
-                }
-            } else {
-                // cast exception if type is weekday but booking time is weekend
-                if (BookingUtils.checkIsWeekend(start) || BookingUtils.checkIsWeekend(end)) {
-                    CustomException.cast(CommonCode.BOOKING_WEEKDAY_ONLY);
-                }
-            }
-
-            // 2.1 check against reserved dates in the room
-
-
-            // 3. check start or end time must be in quarter
-            if (!BookingUtils.checkTimeIsQuarter(start) || !BookingUtils.checkTimeIsQuarter(end)) {
-                CustomException.cast(CommonCode.BOOKING_TIME_QUARTER_ONLY);
-            }
-
-            // 4. check booking time must be hourly and at least one hour
-            if (!BookingUtils.checkDurationInHour(start, end)) {
-                CustomException.cast(CommonCode.BOOKING_TIME_HOURLY_ONLY);
-            }
-
-            // 5. check booking time has not been booked by other users.
-            List<BookingTimeRange> futureBookedTimesByRoom = findFutureBookedTimesByRoom(room.getId(), room.getCity());
-            for (BookingTimeRange timeRange : futureBookedTimesByRoom) {
-                // check start time is not between the booked time
-                if (start.isAfter(timeRange.getStart()) && start.isBefore(timeRange.getEnd())) {
-                    CustomException.cast(CommonCode.BOOKING_TIME_ALREADY_TAKEN);
-                }
-                // check end time is not between the booked time
-                if (end.isAfter(timeRange.getStart()) && end.isBefore(timeRange.getEnd())) {
-                    CustomException.cast(CommonCode.BOOKING_TIME_ALREADY_TAKEN);
-                }
-                // check the booking time range is not covering any booked time
-                if (start.isBefore(timeRange.getStart()) && end.isAfter(timeRange.getEnd())) {
-                    CustomException.cast(CommonCode.BOOKING_TIME_ALREADY_TAKEN);
-                }
-                // check the booking time range is not inside any other booked time
-                if (start.isAfter(timeRange.getStart()) && end.isBefore(timeRange.getEnd())) {
-                    CustomException.cast(CommonCode.BOOKING_TIME_ALREADY_TAKEN);
-                }
-                // check the booking time is exactly the same as any other booked time
-                if (start.isEqual(timeRange.getStart()) || end.isEqual(timeRange.getEnd())) {
-                    CustomException.cast(CommonCode.BOOKING_TIME_ALREADY_TAKEN);
-                }
-            }
-
-            // get hourly duration of each booking
-            int bookingHours = BookingUtils.getBookingHours(start, end);
-            totalBookedHours += bookingHours;
-
-        }
+        int totalBookedHours = timeValidator.validateBookingTimeAndGetTotalHours(bookingTimeList, room);
 
         int totalAmount = room.getPrice() * totalBookedHours;
+        // TODO user info update
         String userId = "userId001";
         int status = BookingStatusEnum.UNPAID.getCode();
 
@@ -179,19 +114,24 @@ public class BookingServiceImpl implements BookingService {
         // send email notification
         log.info("BookingServiceImpl: start to send email.");
 
-        try {
-            sendBookingConfirmEmailNotification(
-                    bookingBO.getContact().getEmail(),
-                    bookingBO.getContact().getName(),
-                    room.getTitle(),
-                    totalBookedHours,
-                    bookingBO.getBookingTime().get(0).getStart(),
-                    totalAmount);
-        } catch (Exception e){
-            log.error("email feign send email failed.");
-            e.printStackTrace();
+        if(shouldSendBookingSuccessEmail == 1) {
+            try {
+                sendBookingSuccessMessage(
+                        bookingBO.getContact().getEmail(),
+                        bookingBO.getContact().getName(),
+                        room.getTitle(),
+                        totalBookedHours,
+                        bookingBO.getBookingTime().get(0).getStart(),
+                        totalAmount);
+            } catch (Exception e){
+                log.error("email feign send email failed.");
+                e.printStackTrace();
+            }
         }
 
+        // start 30 minutes closing countdown
+        log.info("calling startCloseTiming method with bookingID {} ", booking1.getId());
+        bookingCloseTiming.startCloseTiming(booking1.getId());
 
         BookingPreviewVO bookingPreviewVO = new BookingPreviewVO();
 
@@ -202,12 +142,12 @@ public class BookingServiceImpl implements BookingService {
         return bookingPreviewVO;
     }
 
-    private void sendBookingConfirmEmailNotification(String toEmail, String userName, String roomTitle, int totalBookedHours, LocalDateTime startTime, int totalAmount) {
+    private void sendBookingSuccessMessage(String toEmail, String userName, String roomTitle, int totalBookedHours, LocalDateTime startTime, int totalAmount) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mm a");
         String formatedTime = startTime.format(dateTimeFormatter);
         String formatedAmout = PriceUtils.formatDollarString(totalAmount);
         BookingNotificationEmailBO emailBO = new BookingNotificationEmailBO(toEmail,userName,roomTitle, totalBookedHours, formatedTime, formatedAmout);
-        kafkaService.sendBookingNotification(emailBO);
+        kafkaService.sendBookingSuccess(emailBO);
     }
 
     private void checkBookingBoEmptyOrNull(BookingBO bookingBO) {
@@ -274,6 +214,31 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    public List<BookingTimeRange> findBookedTimesByRoomInRange(String roomId, LocalDateTime start, LocalDateTime end) {
+        Room room = roomService.findById(roomId);
+
+        Query query = new Query();
+        query.addCriteria(Criteria.where("room.id").is(roomId))
+                .addCriteria(Criteria.where("bookedTime").elemMatch(Criteria.where("start").gte(start))
+                        .elemMatch(Criteria.where("end").lte(end)))
+                .fields().include("bookedTime");
+
+        List<Booking> list = mongoTemplate.find(query, Booking.class);
+
+        List<BookingTimeRange> bookedTimeList = new ArrayList<>();
+
+        for (Booking booking : list) {
+            List<BookingTimeRange> timeList = booking.getBookedTime();
+            for(BookingTimeRange timeRange : timeList){
+                if(timeRange.getStart().isAfter(start) && timeRange.getEnd().isBefore(end)){
+                    bookedTimeList.add(timeRange);
+                }
+            }
+        }
+        return bookedTimeList;
+    }
+
+    @Override
     public Booking findById(String id) {
         if (id == null) {
             CustomException.cast(CommonCode.REQUEST_FIELD_MISSING);
@@ -318,15 +283,12 @@ public class BookingServiceImpl implements BookingService {
         }
         // mongo page start with 0;
         page = page - 1;
-
         Pageable pageable = PageRequest.of(page, Constants.DEFAULT_PAGE_SIZE, Sort.by("updatedAt").descending());
-
         Page<Booking> bookingsPage = repository.findByUserId(userId, pageable);
 
         if (bookingsPage.getContent().size() == 0) {
             CustomException.cast(CommonCode.DB_EMPTY_LIST);
         }
-
         return bookingsPage;
     }
 
@@ -344,12 +306,9 @@ public class BookingServiceImpl implements BookingService {
         if (size > Constants.MAX_PAGE_SIZE) {
             size = Constants.MAX_PAGE_SIZE;
         }
-
-
         Pageable pageable = PageRequest.of(page, size, Sort.by("bookedAt").descending());
         Query query = new Query();
         query.addCriteria(Criteria.where("status").in("Paid", "Unpaid")).with(pageable);
-
 
         List<Booking> list = mongoTemplate.find(query, Booking.class);
         // MongoTemplate does not have built in Page, have to use PageableExecutionUtils from spring data
@@ -400,7 +359,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking updateStatusById(String id, int status, Long paidAmount) {
+    public Booking updateStatusById(String id, int status, int paidAmount) {
         if (id == null || status == 0) {
             CustomException.cast(CommonCode.REQUEST_FIELD_MISSING);
         }

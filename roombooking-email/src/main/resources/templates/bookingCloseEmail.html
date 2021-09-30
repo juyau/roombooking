@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwww.theymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Close Notification</title>
+</head>
+<body style="line-height: 22px;">
+    Hi, <span style="font-weight: bold" th:text="${name}"></span>,
+    <p>Your following booking has been closed due to payment has not been made within the required time.</p>
+    <div style='background-color: rgb(250,232,236); display: inline-block; border-radius: 4px; border-left: 4px solid #f8112a; padding: 8px 16px'>
+        Room: <span style='font-weight: bold' th:text="${roomTitle}"></span><br>
+        Starting from <span style='font-weight: bold' th:text="${startTime}"></span>
+    </div>
+    <p>You can make the booking again in our website.</p>
+    <p>Best regards,<br>
+    TheBreak Team</p>
+</body>
+</html>

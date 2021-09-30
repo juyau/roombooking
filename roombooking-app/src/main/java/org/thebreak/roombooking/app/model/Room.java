@@ -8,7 +8,7 @@ import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
@@ -27,14 +27,22 @@ public class Room extends BaseEntity {
     private String title;
 
     @Field("address")
+    @NotBlank
     @Schema(example = "77 Kings St, Chatswood, NSW")
     private String address;
 
+    @Field("city")
+    @NotBlank
+    @Schema(example = "Sydney")
+    private String city;
+
     @Field("room_number")
+    @NotBlank
     @Schema(example = "101")
     private String roomNumber;
 
     @Field("type")
+    @NotBlank
     @Schema(example = "Party Room")
     private String type;
 
@@ -42,21 +50,22 @@ public class Room extends BaseEntity {
     @Schema(example = "weekend")
     private int availableType = 1;
 
+    @Field("hour_range")
+    @Schema(description = "the hour range the is bookable.")
+    private BookingTimeRange hourRange;
+
     @Field("reserved_dates")
     @Schema(example = "[\"2002-01-06\",\"2002-01-07\"]", description = "for the special dates not available for booking, for example due to covid restriction")
     private List<LocalDate> reservedDates;
 
-    @Field("city")
-    @Schema(example = "Sydney")
-    private String city;
-
     @Field("description")
+    @NotBlank
     @Schema(example = "This is a huge party room with a lot of facilities, included ....")
     private String description;
 
     @Field("floor")
     @Schema(example = "1")
-    private int floor;
+    private int floor = 0;
 
     @Field("size")
     @Schema(example = "200 Sq")
@@ -68,7 +77,7 @@ public class Room extends BaseEntity {
 
     @Field("price")
     @Schema(example = "9999", description = "unit is in cents, need to display 99.99 in frontend")
-    private int price;
+    private int price = 0;
 
     @Field("discount")
     @Schema(example = "20")
@@ -88,9 +97,4 @@ public class Room extends BaseEntity {
     @Field("facilities")
     private List<String> facilities;
 
-    public Room(@NotEmpty @Size(min = 3, max = 300, message = "title must be between 3 to 300 characters.") String title, @NotEmpty String address, @NotEmpty String roomNumber) {
-        this.title = title;
-        this.address = address;
-        this.roomNumber = roomNumber;
-    }
 }

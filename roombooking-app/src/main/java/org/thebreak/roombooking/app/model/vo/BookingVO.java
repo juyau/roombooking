@@ -8,7 +8,6 @@ import org.thebreak.roombooking.app.model.BookingContact;
 import org.thebreak.roombooking.app.model.BookingTimeRange;
 import org.thebreak.roombooking.app.model.Room;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 

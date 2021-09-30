@@ -19,6 +19,10 @@ spring:
           uri: http://roombooking-dictionary:8086/
           predicates:
             - Path=/api/v1/dicts/**
+        - id: roombooking-file
+          uri: http://roombooking-file:8087/
+          predicates:
+            - Path=/api/v1/file/**
 
 logging:
   level:

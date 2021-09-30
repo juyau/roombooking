@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Slf4j
 @OpenAPIDefinition(info = @Info(title = "Payment Controller", description = "Controller for payment"))
 @RequestMapping(value = "api/v1/payment")

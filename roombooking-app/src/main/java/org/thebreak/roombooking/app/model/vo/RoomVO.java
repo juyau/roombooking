@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -21,7 +21,7 @@ public class RoomVO {
     private String roomNumber;
     private String type;
     private int availableType;
-    private List<LocalDateTime> reservedDates;
+    private List<LocalDate> reservedDates;
     private String city;
     private String description;
     private int floor;

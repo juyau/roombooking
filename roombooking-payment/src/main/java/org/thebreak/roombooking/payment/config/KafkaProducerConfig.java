@@ -1,8 +1,9 @@
 package org.thebreak.roombooking.payment.config;
 
-import com.fasterxml.jackson.databind.ser.std.StringSerializer;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +11,6 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
-import org.thebreak.roombooking.payment.model.Payment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class KafkaProducerConfig {
     private String bootstrapServers;
 
     @Bean
-    public ProducerFactory<String, Payment> paymentSuccessProducerFactory() {
+    public ProducerFactory<String, Object> paymentSuccessProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
@@ -32,7 +32,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, Payment> paymentSuccessKafkaTemplate() {
+    public KafkaTemplate<String, Object> paymentSuccessKafkaTemplate() {
         return new KafkaTemplate<>(paymentSuccessProducerFactory());
     }
 }

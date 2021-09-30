@@ -1,10 +1,15 @@
 package org.thebreak.roombooking.common.util;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.regex.Pattern;
 
 public class BookingUtils {
+
+    public static String emailStingDateTimeFormatter(LocalDateTime dateTime) {
+        return dateTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy hh:mm a"));
+    }
 
     public static boolean isEmail(String email) {
         String regex = "^(\\w+([-.][A-Za-z0-9]+)*){3,32}@\\w+([-.][A-Za-z0-9]+)*\\.\\w{2,}([-.][A-Za-z0-9]{2,})*$";

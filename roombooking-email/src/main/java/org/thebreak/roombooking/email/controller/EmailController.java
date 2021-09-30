@@ -8,6 +8,7 @@ import org.thebreak.roombooking.common.model.BookingNotificationEmailBO;
 import org.thebreak.roombooking.common.model.BookingReminderEmailBO;
 import org.thebreak.roombooking.common.model.EmailBO;
 import org.thebreak.roombooking.common.response.ResponseResult;
+import org.thebreak.roombooking.email.service.EmailListeners;
 import org.thebreak.roombooking.email.service.EmailService;
 
 import javax.mail.MessagingException;
@@ -21,15 +22,18 @@ public class EmailController {
     @Autowired
     private EmailService emailService;
 
-    @PostMapping(value = "/sendBookingNotification")
+    @Autowired
+    private EmailListeners emailListeners;
+
+    @PostMapping(value = "/sendBookingSuccess")
     public ResponseResult<?> sendBookingNotification(@RequestBody BookingNotificationEmailBO email) {
-        emailService.sendBookingNotification(email);
+        emailListeners.sendBookingSuccess(email);
         return ResponseResult.success();
     }
 
     @PostMapping(value = "/sendReminderEmail")
     public ResponseResult<?> sendReminderEmail(@RequestBody BookingReminderEmailBO email) {
-        emailService.sendBookingReminder(email);
+        emailListeners.sendBookingReminder(email);
         return ResponseResult.success();
     }
 

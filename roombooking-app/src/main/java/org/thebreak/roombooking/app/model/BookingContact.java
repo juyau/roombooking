@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 
 @ToString
@@ -16,6 +17,7 @@ import javax.validation.constraints.Email;
 public class BookingContact {
 
     @Schema(description = "contact name")
+    @NotBlank
     private String name;
 
     @Schema(description = "contact email")
@@ -23,6 +25,7 @@ public class BookingContact {
     private String email;
 
     @Schema(description = "mobile number")
+    @NotBlank
     private String mobile;
 
 }

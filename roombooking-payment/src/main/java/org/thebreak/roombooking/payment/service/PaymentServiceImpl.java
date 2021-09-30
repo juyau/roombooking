@@ -1,6 +1,8 @@
 package org.thebreak.roombooking.payment.service;
 
 import com.braintreegateway.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -8,20 +10,21 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.*;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 import org.thebreak.roombooking.common.Constants;
 import org.thebreak.roombooking.common.exception.CustomException;
+import org.thebreak.roombooking.common.model.PaymentBO;
 import org.thebreak.roombooking.common.response.CommonCode;
 import org.thebreak.roombooking.common.response.ResponseResult;
 import org.thebreak.roombooking.common.util.PriceUtils;
 import org.thebreak.roombooking.payment.dao.PaymentRepository;
-import org.thebreak.roombooking.payment.model.TotalAndCountVO;
 import org.thebreak.roombooking.payment.model.Payment;
-
+import org.thebreak.roombooking.payment.model.TotalAndCountVO;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -30,6 +33,7 @@ import java.util.List;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 @Service
+@Slf4j
 public class PaymentServiceImpl implements PaymentService {
     @Value("${braintree.ENVIRONMENT}")
     private String ENVIRONMENT;
@@ -42,6 +46,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Value("${braintree.PRIVATE_KEY}")
     private String PRIVATE_KEY;
+
+    @Autowired
+    private KafkaService kafkaService;
 
     public BraintreeGateway getBrainTreeGateway() {
         return new BraintreeGateway(Environment.SANDBOX, MERCHANT_ID, PUBLIC_KEY, PRIVATE_KEY);
@@ -155,9 +162,13 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public ResponseResult<?> makePayment(String bookingId, int amount, String paymentMethodNonce, int type) {
+    public ResponseResult<Payment> makePayment(String bookingId, int amount, String paymentMethodNonce, int type) {
 
         // check if booking has been closed (for example, timeout)
+//        Payment paymentExist = paymentRepository.findByBookingId(bookingId);
+//        if (paymentExist != null){
+//            CustomException.cast(CommonCode.PAYMENT_ALREADY_MADE);
+//        }
 
         Result<Transaction> result = requestPayment(PriceUtils.intToBigDecimalInDollar(amount), paymentMethodNonce);
 
@@ -165,7 +176,12 @@ public class PaymentServiceImpl implements PaymentService {
             Transaction transaction = result.getTarget();
             String transactionId = transaction.getId();
             Payment payment = savePayment(bookingId, amount, transactionId, type);
-            // TODO send message to MQ;
+
+            // send message to MQ;
+            PaymentBO paymentBO = new PaymentBO();
+            BeanUtils.copyProperties(payment, paymentBO);
+            log.info("payment saved to db, before send to kafka, after copied to paymentBO : " + paymentBO);
+            kafkaService.sendPaymentSuccess(paymentBO);
 
             return ResponseResult.success(payment);
         } else {

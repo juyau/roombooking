@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Repository
 public interface BookingRepository extends MongoRepository<Booking, String> {
-    Optional<Booking> findById(String roomId);
+    Optional<Booking> findById(String bookingId);
 
     Page<Booking> findByUserId(String userId, Pageable pageable);
 

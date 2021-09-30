@@ -18,10 +18,13 @@ spring:
         ip-address: ${spring.cloud.client.ip-address}
   kafka:
     bootstrap-servers: localhost:9092
+    consumer:
+      group-id: "thebreak-email"
     topics:
-      bookingEmailNotification: bookingEmailNotification
-      bookingEmailReminder: bookingEmailReminder
-      test: test
+      bookingSuccess: bookingSuccess
+      bookingReminder: bookingReminder
+      bookingClose: bookingClose
+      paymentSuccess: paymentSuccess
 
 
 #  zipkin:

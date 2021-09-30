@@ -1,4 +1,4 @@
-FROM openjdk:8-alpine3.9
+FROM openjdk:11-alpine3.9
 MAINTAINER samuel
 ENV TZ Australia/Sydney
 ARG JAR_FILE

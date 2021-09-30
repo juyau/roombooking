@@ -11,10 +11,10 @@ spring:
     gateway:
       globalcors:
         corsConfigurations:
-          '[/**]':
-            allowedOrigins: "*"
-            allowedHeaders:
-              - content-type
+#          '[/**]':
+#            allowedOrigins: "*"
+#            allowedHeaders:
+#              - content-type
             allowedMethods:
               - GET
               - POST
