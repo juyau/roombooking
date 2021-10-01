@@ -9,8 +9,9 @@ main app http://www.nobrainer.link:8081/api/v1/app/swagger-ui.html
 dictionary http://www.nobrainer.link:8086/api/v1/dicts/swagger-ui.html 
 ## Tech Stack
 Springboot, Consul, Spring data Mongo, Kafka, Keycloak, Braintree payment, Docker, Jenkins
-## Jenkins work flow
-![image](https://user-images.githubusercontent.com/32782723/133067158-a7a7d992-6264-41d6-9939-36dad1b595cb.png)
+## Architect and Jenkins work flow
+![image](https://user-images.githubusercontent.com/32782723/135623205-b19740b4-1a7c-4f47-8ada-efad04c1f1dd.png)
+
 #### Jenkins project setting
 create parent folder for booking project
 create each microservice as a separate build project so that each service can build independently only if the service module has changed.
