@@ -2,11 +2,11 @@
 Springboot microservice booking system with Docker Jenkins CICD
 ## AWS host url
 #### gateway url
-booking.nobrainer.link:8080/api/v1/app/swagger-ui.html (for reference, swagger not testable)
+http://booking.nobrainer.link:8080/api/v1/app/swagger-ui.html (for reference, swagger not testable)
 #### swagger testable url
-main app booking.nobrainer.link:8081/api/v1/app/swagger-ui.html 
+main app http://booking.nobrainer.link:8081/api/v1/app/swagger-ui.html 
 
-dictionary booking.nobrainer.link:8086/api/v1/dicts/swagger-ui.html 
+dictionary http://booking.nobrainer.link:8086/api/v1/dicts/swagger-ui.html 
 ## Tech Stack
 Springboot, Consul, Spring data Mongo, Kafka, Keycloak, Braintree payment, Docker, Jenkins
 ## Architect and Jenkins work flow
