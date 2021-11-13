@@ -36,8 +36,6 @@ public class BookingCloseTiming {
     public void startCloseTiming(String bookingId) {
 
         log.info("start 15 minutes close booking timing.");
-        System.out.println("closeWaitTime is " + closeWaitTime);
-        System.out.println("closeTime is " + closeTime);
 
         CompletableFuture<BookingCloseEmailBO> future = new CompletableFuture<>();
 

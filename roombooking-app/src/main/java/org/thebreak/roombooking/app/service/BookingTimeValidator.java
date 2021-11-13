@@ -61,7 +61,6 @@ public class BookingTimeValidator {
             if(reservedDates.contains(start.toLocalDate())){
                 CustomException.cast(CommonCode.BOOKING_DATE_RESERVED);
             };
-
             // 2.1 check against hour range
             if(room.getHourRange() == null){
                 int startHour = 8;
