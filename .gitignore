@@ -8,6 +8,7 @@ README.md
 # Editor-based HTTP Client requests
 /httpRequests/
 **/target/
+**/.DS_Store
 deploy.sh
 docker-compose.yml
 .idea
