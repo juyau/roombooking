@@ -2,10 +2,15 @@
 Springboot microservice booking system with Docker Jenkins CICD
 
 #### Swagger API docs:
+
 http://nobrainer.link:8081/api/v1/app/swagger.html
+
 http://nobrainer.link:8084/api/v1/payment/swagger.html
+
 http://nobrainer.link:8085/api/v1/email/swagger.html
+
 http://nobrainer.link:8086/api/v1/dicts/swagger.html
+
 http://nobrainer.link:8087/api/v1/file/swagger.html
 
 ## Tech Stack
