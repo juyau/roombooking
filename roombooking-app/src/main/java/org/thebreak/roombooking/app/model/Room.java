@@ -50,9 +50,13 @@ public class Room extends BaseEntity {
     @Schema(example = "weekend")
     private int availableType = 1;
 
-    @Field("hour_range")
-    @Schema(description = "the hour range the is bookable.")
-    private BookingTimeRange hourRange;
+    @Field("start_hour")
+    @Schema(description = "the bookable start hour of the day.")
+    private int startHour = 8;
+
+    @Field("end_hour")
+    @Schema(description = "the bookable end hour of the day.")
+    private int endHour = 17;
 
     @Field("reserved_dates")
     @Schema(example = "[\"2002-01-06\",\"2002-01-07\"]", description = "for the special dates not available for booking, for example due to covid restriction")

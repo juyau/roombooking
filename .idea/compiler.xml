@@ -9,11 +9,16 @@
         <outputRelativeToContentRoot value="true" />
         <module name="roombooking-file" />
         <module name="roombooking-app" />
+        <module name="roombooking-email" />
         <module name="roombooking-payment" />
         <module name="roombooking-dictionary" />
-        <module name="roombooking-email" />
-        <module name="gateway" />
         <module name="roombooking-common" />
+      </profile>
+      <profile name="Annotation profile for roombooking" enabled="true">
+        <sourceOutputDir name="../../target/generated-sources/annotations" />
+        <sourceTestOutputDir name="../../target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="gateway" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11" />

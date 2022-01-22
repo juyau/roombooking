@@ -58,22 +58,12 @@ public class BookingTimeValidator {
 
             // 2.1 check against reserved dates in the room
             List<LocalDate> reservedDates = room.getReservedDates();
-            if(reservedDates.contains(start.toLocalDate())){
+            if(null != reservedDates && reservedDates.contains(start.toLocalDate())){
                 CustomException.cast(CommonCode.BOOKING_DATE_RESERVED);
             };
-            // 2.1 check against hour range
-            if(room.getHourRange() == null){
-                int startHour = 8;
-                int endHour = 18;
-                System.out.println(start.getHour());
-                System.out.println(end.getHour());
-                if(start.getHour() < startHour || end.getHour() > endHour){
+            // 2.2 check against hour range
+            if(start.getHour() < room.getStartHour() || end.getHour() > room.getEndHour()){
                     CustomException.cast(CommonCode.BOOKING_OUT_OF_RANGE);
-                }
-            } else {
-                if(start.isBefore(room.getHourRange().getStart()) || end.isAfter(room.getHourRange().getEnd())){
-                    CustomException.cast(CommonCode.BOOKING_OUT_OF_RANGE);
-                }
             }
 
             // 3. check start or end time must be in quarter

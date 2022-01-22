@@ -5,14 +5,10 @@ spring:
       port: 27017
       database: payment
       host: mongoDocker
-#eureka:
-#  instance:
-#    hostname: ${pring.application.name}
-##    lease-renewal-interval-in-seconds: 3
-##    lease-expiration-duration-in-seconds: 9
-#  client:
-#    service-url:
-#      defaultZone: http://${eureka.instance.hostname}:8761/eureka
+  kafka:
+    bootstrap-servers: kafka:9092
+    topics:
+      paymentSuccess: paymentSuccess
 
 logging:
   level:

@@ -1,4 +1,4 @@
-FROM openjdk:8-alpine3.9
+FROM azul/zulu-openjdk-alpine:11.0.11-jre
 MAINTAINER samuel
 ENV TZ Australia/Sydney
 ARG JAR_FILE

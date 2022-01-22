@@ -22,6 +22,8 @@ public class RoomVO {
     private String type;
     private int availableType;
     private List<LocalDate> reservedDates;
+    private int startHour;
+    private int endHour;
     private String city;
     private String description;
     private int floor;

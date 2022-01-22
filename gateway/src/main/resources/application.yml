@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 80
 
 spring:
   profiles:
@@ -20,15 +20,3 @@ spring:
               - POST
               - PUT
               - DELETE
-    consul:
-      host: localhost
-      port: 8500
-      discovery:
-        register: true
-        instance-id: ${spring.application.name}-01
-        service-name: ${spring.application.name}
-        port: ${server.port}
-        prefer-ip-address: true
-        ip-address: ${spring.cloud.client.ip-address}
-
-

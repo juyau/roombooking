@@ -2,51 +2,68 @@ version: "3"
 services:
   mongoDocker:
     image: mongo:latest
-    #in the project property file, the mongobd connection is no longer to localhost, but this container name
     container_name: mongoDocker
     volumes:
       - /Users/sam/IdeaProjects/mongodb:/data/db
-#    ports:
-#      - 27017:27017
-    networks:
-      - booking-network
+    ports:
+      - 27017:27017
+
+  zookeeper:
+    image: zookeeper:3.4.9
+    hostname: zookeeper
+    ports:
+      - 2181:2181
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_PORT: 2181
+      ZOO_SERVERS: server.1=zookeeper:2888:3888
+    volumes:
+      - /Users/sam/IdeaProjects/data/zookeeper/data:/data
+      - /Users/sam/IdeaProjects/data/zookeeper/datalog:/datalog
+  kafka:
+    image: confluentinc/cp-kafka:5.3.0
+    hostname: kafka
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka:19092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_BROKER_ID: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - /Users/sam/IdeaProjects/data/kafka2/data:/var/lib/kafka/data
+    depends_on:
+      - zookeeper
+
   roombooking-email:
     image: hcoin/roombooking-email:latest
     container_name: roombooking-email
-#    ports:
-#      - 8085:8085
-    networks:
-      - booking-network
+    ports:
+      - 8085:8085
+
   roombooking-payment:
     image: hcoin/roombooking-payment:latest
     container_name: roombooking-payment
-#    ports:
-#      - 8084:8084
-    networks:
-      - booking-network
+    ports:
+      - 8084:8084
+
   roombooking-dictionary:
     image: hcoin/roombooking-dictionary:latest
     container_name: roombooking-dictionary
-#    ports:
-#      - 8086:8086
-    networks:
-      - booking-network
+    ports:
+      - 8086:8086
+
   roombooking-app:
     image: hcoin/roombooking-app:latest
     container_name: roombooking-app
-#    ports:
-#      - 8081:8081
-    networks:
-      - booking-network
+    ports:
+      - 8081:8081
+
   gateway:
     image: hcoin/gateway:latest
     container_name: gateway
     ports:
       - 8080:8080
-    networks:
-      - booking-network
 
-networks:
-  booking-network:
-    name: booking-network
-    driver: bridge
